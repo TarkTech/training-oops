@@ -18,10 +18,16 @@ public class BeverageMachine {
     public String makeBeverage(BeverageType beverageType) {
         switch (beverageType) {
             case Latte:
+                if(availableLatteCount == 0){
+                    throw new RuntimeException("Sorry! Latte is not available!");
+                }
                 totalLatteDispensed++;
                 availableLatteCount--;
                 return "Enjoy your hot Latte with creamy milk!";
             case Tea:
+                if(availableTeaCount == 0){
+                    throw new RuntimeException("Sorry! Tea is not available!");
+                }
                 totalTeaDispensed++;
                 availableTeaCount--;
                 return "Enjoy your hot Masala Tea!";
