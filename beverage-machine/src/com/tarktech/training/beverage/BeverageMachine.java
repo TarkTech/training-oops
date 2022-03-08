@@ -1,8 +1,6 @@
 package com.tarktech.training.beverage;
 
-import com.tarktech.training.beverage.maker.BeverageMaker;
-import com.tarktech.training.beverage.maker.LatteMaker;
-import com.tarktech.training.beverage.maker.TeaMaker;
+import com.tarktech.training.beverage.maker.*;
 
 public class BeverageMachine {
     private BeverageMaker[] beverageMakers;
@@ -10,7 +8,9 @@ public class BeverageMachine {
     public BeverageMachine() {
         beverageMakers = new BeverageMaker[]{
                 new TeaMaker(),
-                new LatteMaker()
+                new LatteMaker(),
+                new CappuccinoMaker(),
+                new MochaMaker()
         };
     }
 
