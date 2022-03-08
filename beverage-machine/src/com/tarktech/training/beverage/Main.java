@@ -16,10 +16,12 @@ public class Main {
             BeverageType beverageType = BeverageType.valueOf(userInput);
 
             String beverage = beverageMachine.makeBeverage(beverageType);
-
             System.out.println(beverage);
 
-            System.out.println("What beverage do you want (to refresh your morning)? Please enter Done, if you feel refreshed!");
+            int totalBeveragesDrunkByUser = beverageMachine.getTotalBeveragesDrunkByUser(beverageType);
+            System.out.println("You have drunk " + totalBeveragesDrunkByUser + " " + beverageType + " this morning!");
+
+            System.out.println("\nWhat beverage do you want (to refresh your morning)? Please enter Done, if you feel refreshed!");
             userInput = scanner.nextLine();
         }
 
