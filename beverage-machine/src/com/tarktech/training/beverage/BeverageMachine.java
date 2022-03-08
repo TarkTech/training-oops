@@ -36,7 +36,7 @@ public class BeverageMachine {
         }
     }
 
-    public int getTotalBeveragesDrunkByUser(BeverageType beverageType) {
+    public int getBeveragesDrunkByUser(BeverageType beverageType) {
         switch (beverageType) {
             case Latte:
                 return totalLatteDispensed;
@@ -54,5 +54,13 @@ public class BeverageMachine {
                 return availableTeaCount;
         }
         return 0;
+    }
+
+    public int getTotalBeveragesDrunkByUser(){
+        return totalLatteDispensed + totalTeaDispensed;
+    }
+
+    public int getTotalAvailableBeverages(){
+        return availableLatteCount + availableTeaCount;
     }
 }
