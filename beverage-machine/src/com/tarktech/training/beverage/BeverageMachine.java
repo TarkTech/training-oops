@@ -19,14 +19,14 @@ public class BeverageMachine {
         switch (beverageType) {
             case Latte:
                 if(availableLatteCount == 0){
-                    throw new RuntimeException("Sorry! Latte is not available!");
+                    throw new RuntimeException("Sorry! Latte is out of stock!");
                 }
                 totalLatteDispensed++;
                 availableLatteCount--;
                 return "Enjoy your hot Latte with creamy milk!";
             case Tea:
                 if(availableTeaCount == 0){
-                    throw new RuntimeException("Sorry! Tea is not available!");
+                    throw new RuntimeException("Sorry! Tea is out of stock!");
                 }
                 totalTeaDispensed++;
                 availableTeaCount--;
