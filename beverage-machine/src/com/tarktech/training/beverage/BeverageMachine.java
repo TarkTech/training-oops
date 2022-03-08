@@ -3,15 +3,10 @@ package com.tarktech.training.beverage;
 import com.tarktech.training.beverage.maker.*;
 
 public class BeverageMachine {
-    private BeverageMaker[] beverageMakers;
+    private final BeverageMaker[] beverageMakers;
 
-    public BeverageMachine() {
-        beverageMakers = new BeverageMaker[]{
-                new TeaMaker(),
-                new LatteMaker(),
-                new CappuccinoMaker(),
-                new MochaMaker()
-        };
+    public BeverageMachine(BeverageMaker[] beverageMakers) {
+        this.beverageMakers = beverageMakers;
     }
 
     public String makeBeverage(BeverageType beverageType) {

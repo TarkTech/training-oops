@@ -1,11 +1,19 @@
 package com.tarktech.training.beverage;
 
+import com.tarktech.training.beverage.maker.*;
+
 import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
-        BeverageMachine beverageMachine = new BeverageMachine();
+        BeverageMaker[] beverageMakers = {
+                new TeaMaker(),
+                new LatteMaker(),
+                new CappuccinoMaker(),
+                new MochaMaker()
+        };
+        BeverageMachine beverageMachine = new BeverageMachine(beverageMakers);
 
         Scanner scanner = new Scanner(System.in);
 
