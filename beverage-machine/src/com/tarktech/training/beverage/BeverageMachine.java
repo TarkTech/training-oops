@@ -25,4 +25,20 @@ public class BeverageMachine {
         BeverageMaker beverageMaker = beverageMakerByType.get(beverageType);
         return beverageMaker.getAvailableBeverages();
     }
+
+    public BeverageType getMostFavoriteBeverage() {
+        BeverageType mostFavouriteBeverage = null;
+        int mostFavouriteBeverageCount = 0;
+
+        for (BeverageType beverageType: BeverageType.values()) {
+            BeverageMaker beverageMaker = beverageMakerByType.get(beverageType);
+            int beveragesDrunkByUser = beverageMaker.getBeveragesDrunkByUser();
+
+            if(beveragesDrunkByUser >= mostFavouriteBeverageCount){
+                mostFavouriteBeverageCount = beveragesDrunkByUser;
+                mostFavouriteBeverage = beverageType;
+            }
+        }
+        return mostFavouriteBeverage;
+    }
 }
