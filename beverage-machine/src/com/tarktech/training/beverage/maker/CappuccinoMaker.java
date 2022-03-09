@@ -7,14 +7,7 @@ public class CappuccinoMaker extends BeverageMaker {
     }
 
     @Override
-    public String makeBeverage() {
-        validateBeveragesAreAvailable();
-        beverageDispensed();
+    protected String brewFreshBeverage() {
         return "Enjoy cappuccino made from freshly brewed beans!";
-    }
-
-    @Override
-    public BeverageType getBeverageType() {
-        return BeverageType.Cappuccino;
     }
 }

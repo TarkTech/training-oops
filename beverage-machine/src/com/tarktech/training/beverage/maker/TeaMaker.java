@@ -7,14 +7,7 @@ public class TeaMaker extends BeverageMaker {
     }
 
     @Override
-    public String makeBeverage() {
-        validateBeveragesAreAvailable();
-        beverageDispensed();
+    protected String brewFreshBeverage() {
         return "Enjoy your hot Masala Tea!";
-    }
-
-    @Override
-    public BeverageType getBeverageType() {
-        return BeverageType.Tea;
     }
 }

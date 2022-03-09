@@ -2,18 +2,22 @@ package com.tarktech.training.beverage;
 
 import com.tarktech.training.beverage.maker.*;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
+
+import static com.tarktech.training.beverage.BeverageType.*;
 
 public class Main {
 
     public static void main(String[] args) {
-        BeverageMaker[] beverageMakers = {
-                new TeaMaker(),
-                new LatteMaker(),
-                new CappuccinoMaker(),
-                new MochaMaker()
-        };
-        BeverageMachine beverageMachine = new BeverageMachine(beverageMakers);
+        Map<BeverageType, BeverageMaker> beverageMakerByType = new HashMap<>();
+        beverageMakerByType.put(Latte, new LatteMaker());
+        beverageMakerByType.put(Tea, new TeaMaker());
+        beverageMakerByType.put(Cappuccino, new CappuccinoMaker());
+        beverageMakerByType.put(Mocha, new MochaMaker());
+
+        BeverageMachine beverageMachine = new BeverageMachine(beverageMakerByType);
 
         Scanner scanner = new Scanner(System.in);
 
@@ -21,7 +25,7 @@ public class Main {
         String userInput = scanner.nextLine();
 
         while(!userInput.equals("Done")){
-            BeverageType beverageType = BeverageType.valueOf(userInput);
+            BeverageType beverageType = valueOf(userInput);
 
             String beverage = beverageMachine.makeBeverage(beverageType);
             System.out.println(beverage);

@@ -7,14 +7,7 @@ public class MochaMaker extends BeverageMaker {
     }
 
     @Override
-    public String makeBeverage() {
-        validateBeveragesAreAvailable();
-        beverageDispensed();
+    protected String brewFreshBeverage() {
         return "Enjoy Swiss Dark Chocolate Hot Mocha!";
-    }
-
-    @Override
-    public BeverageType getBeverageType() {
-        return BeverageType.Mocha;
     }
 }

@@ -11,20 +11,16 @@ public abstract class BeverageMaker {
         totalBeveragesDispensed = 0;
     }
 
-    public abstract String makeBeverage();
-
-    public abstract BeverageType getBeverageType();
-
-    protected void validateBeveragesAreAvailable(){
+    public String makeBeverage(){
         if(availableBeveragesCount == 0){
-            BeverageType beverageType = getBeverageType();
-            throw new RuntimeException("Sorry! " + beverageType + " is out of stock!");
+            throw new RuntimeException("Sorry! beverage is out of stock!");
         }
-    }
 
-    protected void beverageDispensed(){
         totalBeveragesDispensed++;
         availableBeveragesCount--;
+
+        String freshlyBrewedBeverage = brewFreshBeverage();
+        return freshlyBrewedBeverage;
     }
 
     public int getBeveragesDrunkByUser() {
@@ -34,4 +30,6 @@ public abstract class BeverageMaker {
     public int getAvailableBeverages() {
         return availableBeveragesCount;
     }
+
+    protected abstract String brewFreshBeverage();
 }
