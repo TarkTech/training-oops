@@ -36,9 +36,6 @@ public class Main {
             int availableBeverageCount = beverageMachine.getAvailableBeverages(beverageType);
             System.out.println("There are " + availableBeverageCount + " more " + beverageType + " available.");
 
-            System.out.println("You have drunk total " + beverageMachine.getTotalBeveragesDrunkByUser() + " beverages"
-                    + " and there are " + beverageMachine.getTotalAvailableBeverages() + " more beverages available");
-
             System.out.println("\nWhat beverage do you want (to refresh your morning)? Please enter Done, if you feel refreshed!");
             userInput = scanner.nextLine();
         }
