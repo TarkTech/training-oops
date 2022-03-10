@@ -1,11 +1,12 @@
 package com.tarktech.training.ipl.domain;
 
 public class BallDelivery {
-    private int runsScored;
+    private int runsScoredByBatsman;
     private Player strikerPlayer;
     private Player nonStrikerPlayer;
 
     private BallDeliveryType deliveryType;
+    private int extraRuns;
 
     private WicketDismissal wicketDismissal;
 
@@ -13,17 +14,19 @@ public class BallDelivery {
 
 
     public BallDelivery(
-            int runsScored,
+            int runsScoredByBatsman,
             Player strikerPlayer,
             Player nonStrikerPlayer,
             BallDeliveryType deliveryType,
+            int extraRuns,
             WicketDismissal wicketDismissal,
             Player bowledBy) {
-        this.runsScored = runsScored;
+        this.runsScoredByBatsman = runsScoredByBatsman;
         this.strikerPlayer = strikerPlayer;
         this.nonStrikerPlayer = nonStrikerPlayer;
         this.deliveryType = deliveryType;
         this.wicketDismissal = wicketDismissal;
         this.bowledBy = bowledBy;
+        this.extraRuns = extraRuns;
     }
 }
