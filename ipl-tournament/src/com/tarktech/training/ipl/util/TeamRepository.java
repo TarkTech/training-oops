@@ -18,7 +18,7 @@ public class TeamRepository {
         boolean firstLine = true;
         try {
             //parsing a CSV file into BufferedReader class constructor
-            BufferedReader br = new BufferedReader(new FileReader("T:\\Teams.csv"));
+            BufferedReader br = new BufferedReader(new FileReader("src/com/tarktech/training/ipl/resource/Teams.csv"));
             while ((line = br.readLine()) != null)   //returns a Boolean value
             {
                 if (!firstLine) {
@@ -50,7 +50,7 @@ public class TeamRepository {
         String splitBy = ",";
         try {
             //parsing a CSV file into BufferedReader class constructor
-            BufferedReader br = new BufferedReader(new FileReader("T:\\Players.csv"));
+            BufferedReader br = new BufferedReader(new FileReader("src/com/tarktech/training/ipl/resource/Players.csv"));
             while ((line = br.readLine()) != null)   //returns a Boolean value
             {
                 String[] player = line.split(splitBy);    // use comma as separator
