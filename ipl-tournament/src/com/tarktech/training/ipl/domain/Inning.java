@@ -18,4 +18,12 @@ public class Inning {
     public void overPlayed(Over over) {
         oversPlayed.add(over);
     }
+
+    public Team getTeamToBat(){
+        return teamToBat;
+    }
+
+    public Team getTeamToBowl(){
+        return teamToBowl;
+    }
 }

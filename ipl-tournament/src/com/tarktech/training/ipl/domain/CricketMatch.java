@@ -20,7 +20,16 @@ public class CricketMatch {
         this.scheduledOn = scheduledDate;
     }
 
-    public void coinTossed(String teamToBatFirst){
+//    public void coinTossed(String teamToBatFirst){
+    public void coinTossed(){
+        int coinSideWon = (int) Math.round(Math.random());
+        String teamToBatFirst;
+        if (coinSideWon == 0) {
+             teamToBatFirst = this.team1.getName();
+        }else{
+            teamToBatFirst = this.team2.getName();
+        }
+
         Team teamToBatInFirstInning = team1.getName().equals(teamToBatFirst) ? team1 : team2;
         Team teamToBowlInFirstInning = team1.getName().equals(teamToBatFirst) ? team2 : team1;
 
@@ -40,7 +49,8 @@ public class CricketMatch {
 
     private void validateCoinTossed() {
         if(innings.isEmpty()){
-            throw new RuntimeException("Innings not decided yet! Make sure that the match is scheduled and coin tossed");
+            //throw new RuntimeException("Innings not decided yet! Make sure that the match is scheduled and coin tossed");
+            System.out.println("please Toss the coin again");
         }
     }
 }
