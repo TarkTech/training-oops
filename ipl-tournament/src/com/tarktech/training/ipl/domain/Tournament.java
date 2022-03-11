@@ -1,10 +1,15 @@
 package com.tarktech.training.ipl.domain;
 
+import com.tarktech.training.ipl.MatchScheduler;
+import com.tarktech.training.ipl.util.MatchSimulator;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Tournament {
     private List<Team> teams;
+    private LocalDate tournamentStartDate;
 
     private List<CricketMatch> leagueRoundMatches;
 
@@ -12,21 +17,44 @@ public class Tournament {
 
     private CricketMatch finalMatch;
 
-    public Tournament(List<Team> teams) {
+    public Tournament(List<Team> teams, LocalDate tournamentStartDate) {
         this.teams = teams;
+        this.tournamentStartDate = tournamentStartDate;
         leagueRoundMatches = new ArrayList<>();
         semiFinalMatches = new ArrayList<>();
     }
 
-    public void scheduleLeagueRound(List<CricketMatch> leagueRoundMatches) {
-        this.leagueRoundMatches = leagueRoundMatches;
+    public void scheduleLeagueRound() {
+        MatchScheduler matchScheduler = new MatchScheduler();
+        this.leagueRoundMatches = matchScheduler.scheduleLeagueRound(teams, tournamentStartDate);
     }
 
-    public void scheduleSemifinalMatch(CricketMatch semiFinalMatch) {
-        semiFinalMatches.add(semiFinalMatch);
+    public void playLeagueRound() {
+        MatchSimulator matchSimulator = new MatchSimulator();
+
+        for (CricketMatch cricketMatch : leagueRoundMatches) {
+            Team team1 = cricketMatch.getTeam1();
+            Team team2 = cricketMatch.getTeam2();
+
+            matchSimulator.playMatch(cricketMatch);
+
+            team1.matchPlayed(cricketMatch);
+            team2.matchPlayed(cricketMatch);
+        }
     }
 
-    public void scheduleFinalMatch(CricketMatch finalMatch){
-        this.finalMatch = finalMatch;
+    public void scheduleSemifinals() {
+    }
+
+    public void playSemifinals() {
+
+    }
+
+    public void scheduleFinal() {
+
+    }
+
+    public void playFinal() {
+
     }
 }

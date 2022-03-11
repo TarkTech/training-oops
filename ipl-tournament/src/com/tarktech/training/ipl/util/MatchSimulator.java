@@ -4,7 +4,7 @@ import com.tarktech.training.ipl.domain.CricketMatch;
 import com.tarktech.training.ipl.domain.Inning;
 
 public class MatchSimulator {
-    public void simulateMatch(CricketMatch cricketMatch){
+    public void playMatch(CricketMatch cricketMatch){
         //TODO:
         //Toss the coin and decide who to bat first (randomly)
         //cricketMatch.coinTossed(teamToBat);
