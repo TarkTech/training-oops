@@ -51,10 +51,10 @@ public class MatchSimulator {
                     liveBallStatistics.setBallDeliveryTypeAndRuns();
                 }
 
-                over.deliveredBall(new BallDelivery(liveBallStatistics.getRunsScoredByBatsman(), liveInningStatistics.getStrikerPlayer(), liveInningStatistics.getNonStrikerPlayer(), liveBallStatistics.getBallDeliveryType(), liveBallStatistics.getExtraRuns(), liveBallStatistics.getWicketDismissal(), liveInningStatistics.getBowler()));
                 liveInningStatistics.isTargetChased(targetToChase);
-                BallDelivery ballDelivery = new BallDelivery(runsScoredByBatsman, strikerPlayer, nonStrikerPlayer, deliveryType, extraRuns, wicketDismissal, currentBowler);
+                BallDelivery ballDelivery = new BallDelivery(liveBallStatistics.getRunsScoredByBatsman(), liveInningStatistics.getStrikerPlayer(), liveInningStatistics.getNonStrikerPlayer(), liveBallStatistics.getBallDeliveryType(), liveBallStatistics.getExtraRuns(), liveBallStatistics.getWicketDismissal(), liveInningStatistics.getBowler());
                 validateBallDelivery(ballDelivery, battingTeam, bowlingTeam);
+                over.deliveredBall(ballDelivery);
 
                 if (liveBallStatistics.getRunsScoredByBatsman() == 1 || liveBallStatistics.getRunsScoredByBatsman() == 3) {
                     liveInningStatistics.changeStrike();
