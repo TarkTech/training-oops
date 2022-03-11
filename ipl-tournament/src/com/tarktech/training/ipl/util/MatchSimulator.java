@@ -69,7 +69,7 @@ public class MatchSimulator {
 
                 BallDelivery ballDelivery = new BallDelivery(runsScoredByBatsman, strikerPlayer, nonStrikerPlayer, deliveryType, extraRuns, wicketDismissal, currentBowler);
                 validateBallDelivery(ballDelivery, battingTeam, bowlingTeam);
-                
+
                 over.deliveredBall(ballDelivery);
 
                 if (targetToChase != -1 && runCurrentInning > targetToChase) {
@@ -166,6 +166,10 @@ public class MatchSimulator {
 
         throwExceptionIfNotOneOf(ballDelivery.getStrikerPlayer(), battingTeam.getPlayerList(), "Striker must be from batting team");
         throwExceptionIfNotOneOf(ballDelivery.getNonStrikerPlayer(), battingTeam.getPlayerList(), "Nonstriker must be from batting team");
+
+        boolean isValidWicketDismissal = ballDelivery.getWicketDismissal() == null
+                || (ballDelivery.getDeliveryType() == Normal && ballDelivery.getRunsScoredByBatsman() == 0 && ballDelivery.getExtraRuns() == 0);
+        throwExceptionIfFalse(isValidWicketDismissal, "Invalid wicket dismissal");
     }
 
     private void throwExceptionIfFalse(boolean isTrue, String message) {
