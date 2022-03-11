@@ -1,6 +1,5 @@
 package com.tarktech.training.ipl.domain;
 
-import com.tarktech.training.ipl.RoundRobinMatchScheduler;
 import com.tarktech.training.ipl.SimpleMatchScheduler;
 import com.tarktech.training.ipl.util.MatchSimulator;
 
@@ -26,7 +25,7 @@ public class Tournament {
     }
 
     public List<CricketMatch> scheduleLeagueRound() {
-        RoundRobinMatchScheduler matchScheduler = new RoundRobinMatchScheduler();
+        SimpleMatchScheduler matchScheduler = new SimpleMatchScheduler();
         this.leagueRoundMatches = matchScheduler.scheduleLeagueRound(teams, tournamentStartDate);
         return this.leagueRoundMatches;
     }
@@ -35,29 +34,8 @@ public class Tournament {
         MatchSimulator matchSimulator = new MatchSimulator();
 
         for (CricketMatch cricketMatch : leagueRoundMatches) {
-            Team team1 = cricketMatch.getTeam1();
-            Team team2 = cricketMatch.getTeam2();
-
             matchSimulator.playMatch(cricketMatch);
-
-            team1.matchPlayed(cricketMatch);
-            team2.matchPlayed(cricketMatch);
         }
         return leagueRoundMatches;
-    }
-
-    public void scheduleSemifinals() {
-    }
-
-    public void playSemifinals() {
-
-    }
-
-    public void scheduleFinal() {
-
-    }
-
-    public void playFinal() {
-
     }
 }

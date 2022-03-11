@@ -9,66 +9,43 @@ public class CricketMatch {
     private Inning firstInning;
     private Inning secondInning;
 
-    public CricketMatch(Team team1, Team team2){
+    public CricketMatch(Team team1, Team team2) {
         this.team1 = team1;
         this.team2 = team2;
     }
 
-    public void scheduleOn(LocalDate scheduledDate){
+    public void scheduleOn(LocalDate scheduledDate) {
         this.scheduledOn = scheduledDate;
     }
 
-//    public void coinTossed(String teamToBatFirst){
-    public void coinTossed(){
-        int coinSideWon = (int) Math.round(Math.random());
-        String teamToBatFirst;
-        if (coinSideWon == 0) {
-             teamToBatFirst = this.team1.getName();
-        }else{
-            teamToBatFirst = this.team2.getName();
-        }
+    public void tossCoin() {
+        Team teamToBatFirst = Coin.toss() == Coin.Head ? this.team1 : this.team2;
 
-        Team teamToBatInFirstInning = team1.getName().equals(teamToBatFirst) ? team1 : team2;
-        Team teamToBowlInFirstInning = team1.getName().equals(teamToBatFirst) ? team2 : team1;
+        Team teamToBatInFirstInning = teamToBatFirst == team1 ? team1 : team2;
+        Team teamToBowlInFirstInning = teamToBatFirst == team1 ? team2 : team1;
 
         firstInning = new Inning(teamToBatInFirstInning, teamToBowlInFirstInning);
         secondInning = new Inning(teamToBowlInFirstInning, teamToBatInFirstInning);
     }
 
-    public Inning getFirstInning(){
-        validateCoinTossed();
+    public Inning getFirstInning() {
         return firstInning;
     }
 
-    public Inning getSecondInning(){
-        validateCoinTossed();
+    public Inning getSecondInning() {
         return secondInning;
     }
 
-    public Team getTeam1(){
+    public Team getTeam1() {
         return team1;
     }
 
-    public Team getTeam2(){
+    public Team getTeam2() {
         return team2;
     }
 
-    private void validateCoinTossed() {
-        if(firstInning == null || secondInning == null){
-            throw new RuntimeException("Innings not decided yet! Make sure that the match is scheduled and coin tossed");
-        }
-    }
-
-    public boolean isTied() {
-        return false;
-    }
-
-    public Team getWinningTeam() {
-        return null;
-    }
-
     @Override
-    public String toString(){
+    public String toString() {
         return String.format("%s vs %s on %s", team1, team2, scheduledOn);
     }
 }

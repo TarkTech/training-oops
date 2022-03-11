@@ -91,7 +91,7 @@ public class MatchSimulator {
     }
 
     public void playMatch(CricketMatch cricketMatch, boolean displayResult) {
-        cricketMatch.coinTossed();
+        cricketMatch.tossCoin();
         Inning firstInning = cricketMatch.getFirstInning();
         LiveInningStatistics firstInningStatistics = simulateInning(firstInning, -1);
 
