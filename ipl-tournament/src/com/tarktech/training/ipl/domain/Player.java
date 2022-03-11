@@ -12,4 +12,9 @@ public class Player {
     public PlayerRole getRole(){
         return Role;
     }
+
+    @Override
+    public String toString(){
+        return name;
+    }
 }
