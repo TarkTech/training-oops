@@ -1,44 +1,51 @@
 package com.tarktech.training.beverage;
 
-import com.tarktech.training.beverage.maker.*;
-
-import java.util.Map;
-
 public class BeverageMachine {
-    private final Map<BeverageType, BeverageMaker> beverageMakerByType;
+    private int dispensedTeaCount;
+    private int availableTeaCount;
 
-    public BeverageMachine(Map<BeverageType, BeverageMaker> beverageMakerByType) {
-        this.beverageMakerByType = beverageMakerByType;
+    private int dispensedLatteCount;
+    private int availableLatteCount;
+
+    public BeverageMachine() {
+        dispensedTeaCount = 0;
+        availableTeaCount = 5;
+
+        dispensedLatteCount = 0;
+        availableLatteCount = 5;
     }
 
-    public String makeBeverage(BeverageType beverageType) {
-        BeverageMaker beverageMaker = beverageMakerByType.get(beverageType);
-        return beverageMaker.makeBeverage();
-    }
-
-    public int getBeveragesDrunkByUser(BeverageType beverageType) {
-        BeverageMaker beverageMaker = beverageMakerByType.get(beverageType);
-        return beverageMaker.getBeveragesDrunkByUser();
-    }
-
-    public int getAvailableBeverages(BeverageType beverageType) {
-        BeverageMaker beverageMaker = beverageMakerByType.get(beverageType);
-        return beverageMaker.getAvailableBeverages();
-    }
-
-    public BeverageType getMostFavoriteBeverage() {
-        BeverageType mostFavouriteBeverage = null;
-        int mostFavouriteBeverageCount = 0;
-
-        for (BeverageType beverageType: BeverageType.values()) {
-            BeverageMaker beverageMaker = beverageMakerByType.get(beverageType);
-            int beveragesDrunkByUser = beverageMaker.getBeveragesDrunkByUser();
-
-            if(beveragesDrunkByUser >= mostFavouriteBeverageCount){
-                mostFavouriteBeverageCount = beveragesDrunkByUser;
-                mostFavouriteBeverage = beverageType;
-            }
+    public String dispenseBeverage(BeverageType beverageType) {
+        switch (beverageType) {
+            case Latte:
+                availableLatteCount--;
+                dispensedLatteCount++;
+                return "Enjoy your cup of Latte with fresh creamy milk!";
+            case Tea:
+                availableTeaCount--;
+                dispensedTeaCount++;
+                return "Enjoy your Hot Masala Tea!";
         }
-        return mostFavouriteBeverage;
+        throw new RuntimeException("Sorry! We are not supporting " + beverageType + " yet!");
+    }
+
+    public int getDispensedBeverageCount(BeverageType beverageType) {
+        switch (beverageType) {
+            case Latte:
+                return dispensedLatteCount;
+            case Tea:
+                return dispensedTeaCount;
+        }
+        throw new RuntimeException("Sorry! We are not supporting " + beverageType + " yet!");
+    }
+
+    public int getAvailableBeverageCount(BeverageType beverageType) {
+        switch (beverageType) {
+            case Latte:
+                return availableLatteCount;
+            case Tea:
+                return availableTeaCount;
+        }
+        throw new RuntimeException("Sorry! We are not supporting " + beverageType + " yet!");
     }
 }

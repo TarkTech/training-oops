@@ -1,43 +1,31 @@
 package com.tarktech.training.beverage;
 
-import com.tarktech.training.beverage.maker.*;
-
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
-import static com.tarktech.training.beverage.BeverageType.*;
+import static com.tarktech.training.beverage.BeverageType.valueOf;
 
 public class Main {
 
     public static void main(String[] args) {
-        Map<BeverageType, BeverageMaker> beverageMakerByType = new HashMap<>();
-        beverageMakerByType.put(Latte, new LatteMaker());
-        beverageMakerByType.put(Tea, new TeaMaker());
-        beverageMakerByType.put(Cappuccino, new CappuccinoMaker());
-        beverageMakerByType.put(Mocha, new MochaMaker());
 
-        BeverageMachine beverageMachine = new BeverageMachine(beverageMakerByType);
+        BeverageMachine beverageMachine = new BeverageMachine();
 
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("What beverage do you want (to refresh your morning)? Please enter Done, if you feel refreshed!");
         String userInput = scanner.nextLine();
 
-        while(!userInput.equals("Done")){
+        while (!userInput.equals("Done")) {
             BeverageType beverageType = valueOf(userInput);
 
-            String beverage = beverageMachine.makeBeverage(beverageType);
+            String beverage = beverageMachine.dispenseBeverage(beverageType);
             System.out.println(beverage);
 
-            int totalBeveragesDrunkByUser = beverageMachine.getBeveragesDrunkByUser(beverageType);
+            int totalBeveragesDrunkByUser = beverageMachine.getDispensedBeverageCount(beverageType);
             System.out.println("You have drunk " + totalBeveragesDrunkByUser + " " + beverageType + " this morning!");
 
-            int availableBeverageCount = beverageMachine.getAvailableBeverages(beverageType);
+            int availableBeverageCount = beverageMachine.getAvailableBeverageCount(beverageType);
             System.out.println("There are " + availableBeverageCount + " more " + beverageType + " available.");
-
-            BeverageType mostFavoriteBeverage = beverageMachine.getMostFavoriteBeverage();
-            System.out.println("Looks like, you like " + mostFavoriteBeverage + " most!");
 
             System.out.println("\nWhat beverage do you want (to refresh your morning)? Please enter Done, if you feel refreshed!");
             userInput = scanner.nextLine();
