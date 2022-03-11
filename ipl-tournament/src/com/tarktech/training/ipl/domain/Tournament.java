@@ -24,9 +24,10 @@ public class Tournament {
         semiFinalMatches = new ArrayList<>();
     }
 
-    public void scheduleLeagueRound() {
+    public List<CricketMatch> scheduleLeagueRound() {
         MatchScheduler matchScheduler = new MatchScheduler();
         this.leagueRoundMatches = matchScheduler.scheduleLeagueRound(teams, tournamentStartDate);
+        return this.leagueRoundMatches;
     }
 
     public List<CricketMatch> playLeagueRound() {

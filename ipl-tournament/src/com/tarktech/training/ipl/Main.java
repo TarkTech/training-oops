@@ -20,9 +20,11 @@ public class Main {
 
         Tournament tournament = new Tournament(teams, tournamentStartDate);
 
-        tournament.scheduleLeagueRound();
+        List<CricketMatch> scheduledMatches = tournament.scheduleLeagueRound();
+        PrettyPrinter.printMatchSchedule(scheduledMatches);
+
         List<CricketMatch> playedMatches = tournament.playLeagueRound();
-        PrettyPrinter.printMatchResult(playedMatches);
+//        PrettyPrinter.printMatchDetails(playedMatches);
 
         tournament.scheduleSemifinals();
         tournament.playSemifinals();

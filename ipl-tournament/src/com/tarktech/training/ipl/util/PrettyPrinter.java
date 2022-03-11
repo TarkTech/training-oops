@@ -29,8 +29,8 @@ public class PrettyPrinter {
 
         printInningDetails(cricketMatch.getFirstInning());
         System.out.println(); //Intentionally left blank
-
         printInningDetails(cricketMatch.getSecondInning());
+        printMatchResult(cricketMatch);
         System.out.println(); //Intentionally left blank
     }
 
@@ -53,7 +53,7 @@ public class PrettyPrinter {
         String totalOversPlayedInSecondInning = getTotalOversPlayed(cricketMatch.getSecondInning());
 
         System.out.println(); //Intentionally left blank
-        System.out.println("Match: " + cricketMatch);
+        System.out.println("Summary of Match: " + cricketMatch);
         System.out.println("First inning: " + cricketMatch.getFirstInning());
         System.out.printf("Runs Total (Extras): %s (%s), Wickets: %s, Overs: %s%n", runsScoredInFirstInning, extraRunsScoredInFirstInning, totalWicketsInFirstInning, totalOversPlayedInFirstInning);
 
@@ -127,5 +127,12 @@ public class PrettyPrinter {
         System.out.println();//Intentionally left blank
         System.out.println("Total matches played: " + playedMatches.size());
         playedMatches.forEach(PrettyPrinter::printMatchDetails);
+    }
+
+    public static void printMatchSchedule(List<CricketMatch> scheduledMatches) {
+        System.out.println(); //Intentionally left blank
+        System.out.println("Schedule of Matches");
+        scheduledMatches.forEach(System.out::println);
+        System.out.println(); //Intentionally left blank
     }
 }

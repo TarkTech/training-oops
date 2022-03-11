@@ -86,7 +86,11 @@ public class MatchSimulator {
         return liveInningStatistics;
     }
 
-    public void playMatch(CricketMatch cricketMatch) {
+    public void playMatch(CricketMatch cricketMatch){
+        playMatch(cricketMatch, false);
+    }
+
+    public void playMatch(CricketMatch cricketMatch, boolean displayResult) {
         cricketMatch.coinTossed();
         Inning firstInning = cricketMatch.getFirstInning();
         LiveInningStatistics firstInningStatistics = simulateInning(firstInning, -1);
@@ -94,13 +98,13 @@ public class MatchSimulator {
         Inning secondInning = cricketMatch.getSecondInning();
         LiveInningStatistics secondInningStatistics = simulateInning(secondInning, firstInningStatistics.getTotalRuns());
 
-        if (firstInningStatistics.getTotalRuns() > secondInningStatistics.getTotalRuns()) {
-            System.out.println(firstInning.getTeamToBat().getName() + " Won the match by " + (firstInningStatistics.getTotalRuns() - secondInningStatistics.getTotalRuns()) + " runs");
-        } else {
-            System.out.println(secondInning.getTeamToBat().getName() + " Won the match by " + (10 - secondInningStatistics.getTotalWickets()) + " wickets");
+        if(displayResult) {
+            if (firstInningStatistics.getTotalRuns() > secondInningStatistics.getTotalRuns()) {
+                System.out.println(firstInning.getTeamToBat().getName() + " Won the match by " + (firstInningStatistics.getTotalRuns() - secondInningStatistics.getTotalRuns()) + " runs");
+            } else {
+                System.out.println(secondInning.getTeamToBat().getName() + " Won the match by " + (10 - secondInningStatistics.getTotalWickets()) + " wickets");
+            }
         }
-
-
     }
 
     private <T> T randomOneOf(T... values) {
