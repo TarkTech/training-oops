@@ -2,10 +2,12 @@ package com.tarktech.training.ipl.util;
 
 import com.tarktech.training.ipl.domain.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
-import static com.tarktech.training.ipl.domain.BallDeliveryType.*;
-import static com.tarktech.training.ipl.domain.WicketDismissal.*;
+import static com.tarktech.training.ipl.domain.BallDeliveryType.Normal;
 
 public class MatchSimulator {
     private List<Player> getBowlerList(Team team) {
@@ -29,30 +31,38 @@ public class MatchSimulator {
 
         LiveInningStatistics liveInningStatistics = new LiveInningStatistics(batters, bowlers);
 
-        for (int i = 0; i < 20 && !liveInningStatistics.getIsInningOver(); i++) {
-            Over over = new Over();
+        for (int i = 0; i < 20 && !liveInningStatistics.isInningOver(); i++) {
+            Over over = new Over(i+1);
             liveInningStatistics.changeBowler(i); //Pick bowler in round robin fashion
             int ballCount = 0;
 
-            while (ballCount < 6 && !liveInningStatistics.getIsInningOver()) {
+            while (ballCount < 6 && !liveInningStatistics.isInningOver()) {
                 LiveBallStatistics liveBallStatistics = new LiveBallStatistics();
 
                 int randomForDeliveryType = random.nextInt(100);
-                if (randomForDeliveryType <= 94) {
+                if (randomForDeliveryType < 90) {
                     liveBallStatistics.setDeliveryType(Normal);
                     int randomForWicketDismissal = random.nextInt(100);
-                    if (randomForWicketDismissal > 94) {
+                    if (randomForWicketDismissal < 10) {
                         liveBallStatistics.setWicketDismissal();
                     } else {
                         liveBallStatistics.setRunsScoredByBatsman();
                     }
                     ballCount += 1;
                 } else {
-                    liveBallStatistics.setBallDeliveryTypeAndRuns();
+                    liveBallStatistics.setWideOrNoBallDelivery();
                 }
 
                 liveInningStatistics.isTargetChased(targetToChase);
-                BallDelivery ballDelivery = new BallDelivery(liveBallStatistics.getRunsScoredByBatsman(), liveInningStatistics.getStrikerPlayer(), liveInningStatistics.getNonStrikerPlayer(), liveBallStatistics.getBallDeliveryType(), liveBallStatistics.getExtraRuns(), liveBallStatistics.getWicketDismissal(), liveInningStatistics.getBowler());
+                BallDelivery ballDelivery = new BallDelivery(
+                        liveBallStatistics.getRunsScoredByBatsman(),
+                        liveInningStatistics.getStrikerPlayer(),
+                        liveInningStatistics.getNonStrikerPlayer(),
+                        liveBallStatistics.getBallDeliveryType(),
+                        liveBallStatistics.getExtraRuns(),
+                        liveBallStatistics.getWicketDismissal(),
+                        liveInningStatistics.getBowler());
+
                 validateBallDelivery(ballDelivery, battingTeam, bowlingTeam);
                 over.deliveredBall(ballDelivery);
 
@@ -61,18 +71,20 @@ public class MatchSimulator {
                 }
 
                 //remaining to check which player got out. for now Striker is considered as out
-                if (liveBallStatistics.getIsWicket()) {
+                if (liveBallStatistics.isWicketDismissal()) {
                     liveInningStatistics.addWicket();
                 }
                 liveInningStatistics.addRuns(liveBallStatistics.getTotalRunsScoredInBall());
             }
+
+            validateOver(over, liveInningStatistics.isInningOver());
             inning.overPlayed(over);
             liveInningStatistics.changeStrike();
         }
         return liveInningStatistics;
     }
 
-    public void simulateMatch(CricketMatch cricketMatch) {
+    public void playMatch(CricketMatch cricketMatch) {
         cricketMatch.coinTossed();
         Inning firstInning = cricketMatch.getFirstInning();
         LiveInningStatistics firstInningStatistics = simulateInning(firstInning, -1);
@@ -86,42 +98,23 @@ public class MatchSimulator {
             System.out.println(secondInning.getTeamToBat().getName() + " Won the match by " + (10 - secondInningStatistics.getTotalWickets()) + " wickets");
         }
 
-        //TODO:
-        //Toss the coin and decide who to bat first (randomly)
-        //cricketMatch.coinTossed(teamToBat);
 
-        //Simulate first inning
-        // Pseudo code
-        // while first inning is not over
-        // simulate match over by over and record it using
-        // firstInning.overPlayed(over);
-
-
-        //Simulate second inning
-        // Same as above
-
-        //Few rules while simulating match
-        //Simulate match ball by ball
-        //In each ball, runsScored will be one of 0,1,2,3,4,6 (with equal probability)
-        //BallDelivery could be Normal, Wide or NoBall, probability of Normal Delivery is 0.95 and probability for Wide and NoBall is 0.05 each
-        //There could be WicketDismissal, with probability of 0.05. During dismissal of wicket, randomly decide WicketDismissalType
-        //runsScored is the actual run scored by striker batsman (and not due to extra run)
-        //Strike changes within over, if runsScored = 1/3
-        //Strike changes after completion of an over
-        //Second inning will be stopped as soon as the result is decided, i.e. once that team scores required runs to win
-
-        //During simulation, if you need any helper methods/classes, add them inside com.tarktech.training.ipl.util package, but do not add these helper methods inside actual domain class
-        //Please also let me know in-case if I've missed something in above
-    }
-
-    private int randomOneOf(int... values) {
-        int randomIndex = new Random().nextInt(values.length);
-        return values[randomIndex - 1];
     }
 
     private <T> T randomOneOf(T... values) {
         int randomIndex = new Random().nextInt(values.length);
         return values[randomIndex - 1];
+    }
+
+    private void validateOver(Over over, boolean isInningOver) {
+        long normalDeliveredBallCount = over.getBallsDelivered().stream()
+                .filter(ballDelivery -> ballDelivery.getDeliveryType() == Normal)
+                .count();
+        if (!isInningOver) {
+            throwExceptionIfFalse(normalDeliveredBallCount == 6, "An over must have 6 valid balls");
+        } else {
+            throwExceptionIfFalse(normalDeliveredBallCount <= 6, "If current over is last over of the inning, it should have <= 6 ball deliveries");
+        }
     }
 
     private void validateBallDelivery(BallDelivery ballDelivery, Team battingTeam, Team bowlingTeam) {
@@ -160,3 +153,31 @@ public class MatchSimulator {
         }
     }
 }
+
+
+//TODO:
+//Toss the coin and decide who to bat first (randomly)
+//cricketMatch.coinTossed(teamToBat);
+
+//Simulate first inning
+// Pseudo code
+// while first inning is not over
+// simulate match over by over and record it using
+// firstInning.overPlayed(over);
+
+
+//Simulate second inning
+// Same as above
+
+//Few rules while simulating match
+//Simulate match ball by ball
+//In each ball, runsScored will be one of 0,1,2,3,4,6 (with equal probability)
+//BallDelivery could be Normal, Wide or NoBall, probability of Normal Delivery is 0.95 and probability for Wide and NoBall is 0.05 each
+//There could be WicketDismissal, with probability of 0.05. During dismissal of wicket, randomly decide WicketDismissalType
+//runsScored is the actual run scored by striker batsman (and not due to extra run)
+//Strike changes within over, if runsScored = 1/3
+//Strike changes after completion of an over
+//Second inning will be stopped as soon as the result is decided, i.e. once that team scores required runs to win
+
+//During simulation, if you need any helper methods/classes, add them inside com.tarktech.training.ipl.util package, but do not add these helper methods inside actual domain class
+//Please also let me know in-case if I've missed something in above

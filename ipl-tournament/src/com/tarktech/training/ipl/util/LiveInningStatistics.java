@@ -1,7 +1,6 @@
 package com.tarktech.training.ipl.util;
 
 import com.tarktech.training.ipl.domain.Player;
-import com.tarktech.training.ipl.domain.PlayerRole;
 
 import java.util.List;
 
@@ -24,7 +23,7 @@ public class LiveInningStatistics {
         this.strikerPlayer = batters.get(0);
         this.nonStrikerPlayer = batters.get(1);
         this.bowler = bowlers.get(0);
-        this.nextBattingPosition = 2;
+        this.nextBattingPosition = 3;
         this.isInningOver = false;
     }
 
@@ -58,7 +57,7 @@ public class LiveInningStatistics {
         this.totalRuns += runs;
     }
 
-    public boolean getIsInningOver() {
+    public boolean isInningOver() {
         return isInningOver;
     }
 
@@ -68,11 +67,12 @@ public class LiveInningStatistics {
 
     public void addWicket() {
         this.totalWickets += 1;
-        this.strikerPlayer = batters.get(nextBattingPosition);
-        this.nextBattingPosition += 1;
-        if(nextBattingPosition > 11){
+        if(nextBattingPosition > 11){ // nextBattingPosition is 1 based index, like real world cricket
             this.isInningOver= true;
         }
+
+        this.strikerPlayer = isInningOver ? null : batters.get(nextBattingPosition - 1);
+        this.nextBattingPosition += 1;
     }
 
     public void changeBowler(int i) {

@@ -15,14 +15,12 @@ public class LiveBallStatistics {
     private BallDeliveryType ballDeliveryType;
     private int extraRuns;
     private WicketDismissal wicketDismissal;
-    private boolean isWicket;
 
     public LiveBallStatistics() {
         this.runsScoredByBatsman = 0;
         this.ballDeliveryType = null;
         this.extraRuns = 0;
         this.wicketDismissal = null;
-        this.isWicket = false;
     }
 
     public void setDeliveryType(BallDeliveryType deliveryType) {
@@ -30,7 +28,6 @@ public class LiveBallStatistics {
     }
 
     public void setWicketDismissal() {
-        this.isWicket = true;
         this.wicketDismissal = randomOneOf(Bowled, Caught, RunOut, LegBeforeWicket);
         this.runsScoredByBatsman = 0;
     }
@@ -39,7 +36,7 @@ public class LiveBallStatistics {
         this.runsScoredByBatsman = randomOneOfInt(0, 1, 2, 3, 4, 6);
     }
 
-    public void setBallDeliveryTypeAndRuns() {
+    public void setWideOrNoBallDelivery() {
         this.ballDeliveryType = randomOneOf(Wide, NoBall);
         this.extraRuns += 1;
         this.runsScoredByBatsman = ballDeliveryType == Wide ? 0 : randomOneOfInt(0, 1, 2, 3, 4, 6);
@@ -61,8 +58,8 @@ public class LiveBallStatistics {
         return wicketDismissal;
     }
 
-    public boolean getIsWicket() {
-        return isWicket;
+    public boolean isWicketDismissal() {
+        return wicketDismissal != null;
     }
 
     public int getTotalRunsScoredInBall() {
