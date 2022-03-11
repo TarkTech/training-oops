@@ -11,8 +11,11 @@ public class Team {
         this.players = players;
     }
 
-
     public String getName() {
         return name;
+    }
+
+    public List<Player> getPlayerList(){
+        return players;
     }
 }

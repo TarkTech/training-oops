@@ -3,4 +3,13 @@ package com.tarktech.training.ipl.domain;
 public class Player {
     private String name;
     private PlayerRole Role;
+
+    public Player(String name, PlayerRole Role) {
+        this.name = name;
+        this.Role = Role;
+    }
+
+    public PlayerRole getRole(){
+        return Role;
+    }
 }
