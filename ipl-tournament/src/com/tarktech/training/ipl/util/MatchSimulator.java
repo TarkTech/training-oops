@@ -4,6 +4,9 @@ import com.tarktech.training.ipl.domain.*;
 
 import java.util.*;
 
+import static com.tarktech.training.ipl.domain.BallDeliveryType.*;
+import static com.tarktech.training.ipl.domain.WicketDismissal.*;
+
 public class MatchSimulator {
     private List<Player> getBowlerList(Team team) {
         List<Player> players = team.getPlayerList();
@@ -47,35 +50,23 @@ public class MatchSimulator {
 
                 int randomForDeliveryType = random.nextInt(101);
                 if (randomForDeliveryType <= 95) {
-                    deliveryType = BallDeliveryType.Normal;
+                    deliveryType = Normal;
                     int randomForWicketDismissal = random.nextInt(101);
                     if (randomForWicketDismissal > 95) {
                         isWicket = true;
                         wicketCurrentInning += 1;
-                        int randomForWicketDismissalType = random.nextInt(4);
-                        if (randomForWicketDismissalType == 0) {
-                            wicketDismissal = WicketDismissal.Bowled;
-                        } else if (randomForWicketDismissalType == 1) {
-                            wicketDismissal = WicketDismissal.Caught;
-                        } else if (randomForWicketDismissalType == 2) {
-                            wicketDismissal = WicketDismissal.RunOut;
-                        } else {
-                            wicketDismissal = WicketDismissal.LegBeforeWicket;
-                        }
+                        wicketDismissal = randomOneOf(Bowled, Caught, RunOut, LegBeforeWicket);
                         runsScoredByBatsman = 0;
                     } else {
-                        runsScoredByBatsman = random.nextInt(7);
+                        runsScoredByBatsman = randomOneOf(0,1,2,3,4,6);
                     }
                     ballCount += 1;
-                } else if (randomForDeliveryType > 95 && randomForDeliveryType <= 97) {
-                    deliveryType = BallDeliveryType.Wide;
-                    extraRuns = 1;
-                    runsScoredByBatsman = 0;
                 } else {
-                    deliveryType = BallDeliveryType.NoBall;
+                    deliveryType = randomOneOf(Wide, NoBall);
                     extraRuns = 1;
-                    runsScoredByBatsman = random.nextInt(7);
+                    runsScoredByBatsman = deliveryType == Wide ? 0 : randomOneOf(0,1,2,3,4,6);
                 }
+
                 over.deliveredBall(new BallDelivery(runsScoredByBatsman, strikerPlayer, nonStrikerPlayer, deliveryType, extraRuns, wicketDismissal, currentBowler));
 
                 if (targetToChase != -1 && runCurrentInning > targetToChase) {
@@ -147,4 +138,16 @@ public class MatchSimulator {
         //During simulation, if you need any helper methods/classes, add them inside com.tarktech.training.ipl.util package, but do not add these helper methods inside actual domain class
         //Please also let me know in-case if I've missed something in above
     }
+
+    private int randomOneOf(int... values){
+        int randomIndex = new Random().nextInt(values.length);
+        return values[randomIndex-1];
+    }
+
+    private <T> T randomOneOf(T... values){
+        int randomIndex = new Random().nextInt(values.length);
+        return values[randomIndex-1];
+    }
+
+
 }
