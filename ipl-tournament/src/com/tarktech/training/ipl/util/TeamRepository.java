@@ -4,37 +4,37 @@ import com.tarktech.training.ipl.domain.Player;
 import com.tarktech.training.ipl.domain.PlayerRole;
 import com.tarktech.training.ipl.domain.Team;
 
-import java.io.*;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TeamRepository {
     public List<Team> findAllTeams() {
-        //TODO: add teams.csv and players.csv inside resource folder/package
-        //Read these csvs and implement this method
-        ArrayList<Team> teams = new ArrayList<>();
-        String line = "";
-        String splitBy = ",";
-        boolean firstLine = true;
+        List<Team> teams = new ArrayList<>();
         try {
-            //parsing a CSV file into BufferedReader class constructor
-            BufferedReader br = new BufferedReader(new FileReader("src/com/tarktech/training/ipl/resource/Teams.csv"));
-            while ((line = br.readLine()) != null)   //returns a Boolean value
-            {
-                if (!firstLine) {
-                    String[] teamRow = line.split(splitBy);// use comma as separator
-                    Team team = new Team(teamRow[0], findPlayerByTeamName(teamRow[0]));
-                    teams.add(team);
-                }
-                firstLine = false;
+            List<String> teamCsvRows = Files.readAllLines(Paths.get("src/resources", "Teams.csv"));
+            teamCsvRows.remove(0); //Remove header
+
+            for (String teamCsvRow : teamCsvRows) {
+                String[] teamRow = teamCsvRow.split(",");// use comma as separator
+                String teamName = teamRow[0].trim();
+                List<Player> players = findPlayersForTeam(teamRow[0]);
+                teams.add(new Team(teamName, players));
             }
+
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
         return teams;
     }
 
-    private PlayerRole getPlayerRoleFromString(String playerRole) {
+    private PlayerRole getPlayerRole(String playerRole) {
+        playerRole = playerRole.trim();
+
         if (playerRole.equals("Batsman") || playerRole.equals("WK-Batsman")) {
             return PlayerRole.Batsman;
         } else if (playerRole.equals("Bowlers") || playerRole.equals("Bowler")) {
@@ -44,26 +44,27 @@ public class TeamRepository {
         }
     }
 
-    private ArrayList<Player> findPlayerByTeamName(String teamName) {
+    private List<Player> findPlayersForTeam(String teamName) throws IOException {
         ArrayList<Player> players = new ArrayList<Player>();
-        String line = "";
-        String splitBy = ",";
-        try {
-            //parsing a CSV file into BufferedReader class constructor
-            BufferedReader br = new BufferedReader(new FileReader("src/com/tarktech/training/ipl/resource/Players.csv"));
-            while ((line = br.readLine()) != null)   //returns a Boolean value
-            {
-                String[] player = line.split(splitBy);    // use comma as separator
-                if (player[0].equals(teamName)) {
+        //parsing a CSV file into BufferedReader class constructor
+        List<String> playersCsvRows = Files.readAllLines(Paths.get("src/resources", "Players.csv"));
+        playersCsvRows.remove(0);
 
-                    Player player1 = new Player(player[1], getPlayerRoleFromString(player[3].trim()));
-                    players.add(player1);
-                }
+        for (String playerRow : playersCsvRows) {
+            String[] playerAttributes = playerRow.split(",");    // use comma as separator
+            if (playerAttributes[0].equals(teamName)) {
+                String playerName = playerAttributes[1].trim();
+                PlayerRole playerRole = getPlayerRole(playerAttributes[3]);
+                players.add(new Player(playerName, playerRole));
             }
-
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-        return players;
+
+        if (players.size() != 11) {
+            throw new RuntimeException("There are only " + players.size() + " players in " + teamName);
+        }
+
+        return players.stream()
+                .sorted(Comparator.comparing(Player::getRole))
+                .collect(Collectors.toList());
     }
 }
