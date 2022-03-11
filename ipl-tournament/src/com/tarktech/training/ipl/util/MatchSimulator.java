@@ -9,7 +9,8 @@ public class MatchSimulator {
         List<Player> players = team.getPlayerList();
         List<Player> bowlers = new ArrayList<>();
         for (int i = 0; i < players.size(); i++) {
-            if (players.get(i).getRole() != PlayerRole.Bowler)
+            PlayerRole playerRole = players.get(i).getRole();
+            if (playerRole == PlayerRole.Bowler || playerRole == PlayerRole.AllRounder)
                 bowlers.add(players.get(i));
         }
         return bowlers;
@@ -29,11 +30,13 @@ public class MatchSimulator {
 
         Team bowlingTeam = inning.getTeamToBowl();
         List<Player> bowlers = getBowlerList(bowlingTeam);
-        Player currentBowler = bowlers.get(0);
-        int nextBowlerPosition = 1;
+
 
         for (int i = 0; i < 20; i++) {
             Over over = new Over();
+
+            Player currentBowler = bowlers.get(i % bowlers.size()); //Pick bowler in round robin fashion
+
             int ballCount = 0;
             while (ballCount < 6 && !isInningOver) {
                 int runsScoredByBatsman;
