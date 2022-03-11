@@ -55,7 +55,6 @@ public class MatchSimulator {
                     liveBallStatistics.setWideOrNoBallDelivery();
                 }
 
-                liveInningStatistics.isTargetChased(targetToChase);
                 BallDelivery ballDelivery = new BallDelivery(
                         liveBallStatistics.getRunsScoredByBatsman(),
                         liveInningStatistics.getStrikerPlayer(),
@@ -77,6 +76,7 @@ public class MatchSimulator {
                     liveInningStatistics.addWicket();
                 }
                 liveInningStatistics.addRuns(liveBallStatistics.getTotalRunsScoredInBall());
+                liveInningStatistics.isTargetChased(targetToChase);
             }
 
             validateOver(over, liveInningStatistics.isInningOver());
