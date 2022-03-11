@@ -2,7 +2,10 @@ package com.tarktech.training.ipl.util;
 
 import com.tarktech.training.ipl.domain.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
 import static com.tarktech.training.ipl.domain.BallDeliveryType.*;
 import static com.tarktech.training.ipl.domain.WicketDismissal.*;
@@ -35,8 +38,8 @@ public class MatchSimulator {
         List<Player> bowlers = getBowlerList(bowlingTeam);
 
 
-        for (int i = 0; i < 20; i++) {
-            Over over = new Over();
+        for (int i = 0; i < 20 && !isInningOver; i++) {
+            Over over = new Over(i + 1);
 
             Player currentBowler = bowlers.get(i % bowlers.size()); //Pick bowler in round robin fashion
 
@@ -46,25 +49,23 @@ public class MatchSimulator {
                 BallDeliveryType deliveryType;
                 int extraRuns = 0;
                 WicketDismissal wicketDismissal = null;
-                boolean isWicket = false;
 
                 int randomForDeliveryType = random.nextInt(101);
-                if (randomForDeliveryType <= 95) {
+                if (randomForDeliveryType <= 90) {
                     deliveryType = Normal;
                     int randomForWicketDismissal = random.nextInt(101);
-                    if (randomForWicketDismissal > 95) {
-                        isWicket = true;
+                    if (randomForWicketDismissal > 55) {
                         wicketCurrentInning += 1;
                         wicketDismissal = randomOneOf(Bowled, Caught, RunOut, LegBeforeWicket);
                         runsScoredByBatsman = 0;
                     } else {
-                        runsScoredByBatsman = randomOneOf(0, 1, 2, 3, 4, 6);
+                        runsScoredByBatsman = getRandomScoredRun();
                     }
                     ballCount += 1;
                 } else {
                     deliveryType = randomOneOf(Wide, NoBall);
                     extraRuns = 1;
-                    runsScoredByBatsman = deliveryType == Wide ? 0 : randomOneOf(0, 1, 2, 3, 4, 6);
+                    runsScoredByBatsman = deliveryType == Wide ? 0 : getRandomScoredRun();
                 }
 
                 BallDelivery ballDelivery = new BallDelivery(runsScoredByBatsman, strikerPlayer, nonStrikerPlayer, deliveryType, extraRuns, wicketDismissal, currentBowler);
@@ -81,16 +82,17 @@ public class MatchSimulator {
                     nonStrikerPlayer = temp;
                 }
                 //remaining to check which player got out for now Striker is considered as out
-                if (isWicket) {
-                    strikerPlayer = batters.get(nextBattingPosition);
-                    nextBattingPosition += 1;
-                    isWicket = false;
-                    if (nextBattingPosition > 11) {
+                if (ballDelivery.getWicketDismissal() != null) {
+                    if (nextBattingPosition >= 11) {
                         isInningOver = true;
+                    } else {
+                        strikerPlayer = batters.get(nextBattingPosition);
+                        nextBattingPosition += 1;
                     }
                 }
                 runCurrentInning += runsScoredByBatsman + extraRuns;
             }
+            validateOver(over, isInningOver);
             inning.overPlayed(over);
 
             Player temp = strikerPlayer;
@@ -100,7 +102,16 @@ public class MatchSimulator {
         return new int[]{runCurrentInning, wicketCurrentInning};
     }
 
-    public void simulateMatch(CricketMatch cricketMatch) {
+    private Integer getRandomScoredRun() {
+        return 1;
+//        if (new Random().nextInt(100) <= 95) {
+//            return randomOneOf(0, 1, 2, 3, 4, 6);
+//        } else {
+//            return randomOneOf(4, 6);
+//        }
+    }
+
+    public void playMatch(CricketMatch cricketMatch) {
         cricketMatch.coinTossed();
         Inning firstInning = cricketMatch.getFirstInning();
         int[] firstInningStatistics = simulateInning(firstInning, -1);
@@ -142,14 +153,24 @@ public class MatchSimulator {
         //Please also let me know in-case if I've missed something in above
     }
 
-    private int randomOneOf(int... values) {
-        int randomIndex = new Random().nextInt(values.length);
-        return values[randomIndex - 1];
+    private <T> T randomOneOf(T... values) {
+        try {
+            int randomIndex = new Random().nextInt(values.length);
+            return values[randomIndex];
+        } catch (RuntimeException ex) {
+            throw ex;
+        }
     }
 
-    private <T> T randomOneOf(T... values) {
-        int randomIndex = new Random().nextInt(values.length);
-        return values[randomIndex - 1];
+    private void validateOver(Over over, boolean isInningOver) {
+        long normalDeliveredBallCount = over.getBallsDelivered().stream()
+                .filter(ballDelivery -> ballDelivery.getDeliveryType() == Normal)
+                .count();
+        if (!isInningOver) {
+            throwExceptionIfFalse(normalDeliveredBallCount == 6, "An over must have 6 valid balls");
+        } else {
+            throwExceptionIfFalse(normalDeliveredBallCount <= 6, "If current over is last over of the inning, it should have <= 6 ball deliveries");
+        }
     }
 
     private void validateBallDelivery(BallDelivery ballDelivery, Team battingTeam, Team bowlingTeam) {

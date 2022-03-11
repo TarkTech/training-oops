@@ -70,4 +70,9 @@ public class CricketMatch {
     public Team getWinningTeam() {
         return null;
     }
+
+    @Override
+    public String toString(){
+        return String.format("%s vs %s on %s", team1, team2, scheduledOn);
+    }
 }

@@ -34,7 +34,6 @@ public class TeamRepository {
 
     private PlayerRole getPlayerRole(String playerRole) {
         playerRole = playerRole.trim();
-
         if (playerRole.equals("Batsman") || playerRole.equals("WK-Batsman")) {
             return PlayerRole.Batsman;
         } else if (playerRole.equals("Bowlers") || playerRole.equals("Bowler")) {
@@ -52,7 +51,8 @@ public class TeamRepository {
 
         for (String playerRow : playersCsvRows) {
             String[] playerAttributes = playerRow.split(",");    // use comma as separator
-            if (playerAttributes[0].equals(teamName)) {
+            String teamOfPlayer = playerAttributes[0];
+            if (teamOfPlayer.equals(teamName)) {
                 String playerName = playerAttributes[1].trim();
                 PlayerRole playerRole = getPlayerRole(playerAttributes[3]);
                 players.add(new Player(playerName, playerRole));
@@ -60,7 +60,7 @@ public class TeamRepository {
         }
 
         if (players.size() != 11) {
-            throw new RuntimeException("There are only " + players.size() + " players in " + teamName);
+            throw new RuntimeException("There are " + players.size() + " players in " + teamName);
         }
 
         return players.stream()
