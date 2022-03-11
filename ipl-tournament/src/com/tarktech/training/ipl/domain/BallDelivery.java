@@ -30,6 +30,9 @@ public class BallDelivery {
         this.extraRuns = extraRuns;
     }
 
+    public int getTotalRuns(){
+        return runsScoredByBatsman + extraRuns;
+    }
 
     public int getRunsScoredByBatsman() {
         return runsScoredByBatsman;
