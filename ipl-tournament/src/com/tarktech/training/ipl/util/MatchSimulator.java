@@ -58,16 +58,19 @@ public class MatchSimulator {
                         wicketDismissal = randomOneOf(Bowled, Caught, RunOut, LegBeforeWicket);
                         runsScoredByBatsman = 0;
                     } else {
-                        runsScoredByBatsman = randomOneOf(0,1,2,3,4,6);
+                        runsScoredByBatsman = randomOneOf(0, 1, 2, 3, 4, 6);
                     }
                     ballCount += 1;
                 } else {
                     deliveryType = randomOneOf(Wide, NoBall);
                     extraRuns = 1;
-                    runsScoredByBatsman = deliveryType == Wide ? 0 : randomOneOf(0,1,2,3,4,6);
+                    runsScoredByBatsman = deliveryType == Wide ? 0 : randomOneOf(0, 1, 2, 3, 4, 6);
                 }
 
-                over.deliveredBall(new BallDelivery(runsScoredByBatsman, strikerPlayer, nonStrikerPlayer, deliveryType, extraRuns, wicketDismissal, currentBowler));
+                BallDelivery ballDelivery = new BallDelivery(runsScoredByBatsman, strikerPlayer, nonStrikerPlayer, deliveryType, extraRuns, wicketDismissal, currentBowler);
+                validateBallDelivery(ballDelivery, battingTeam, bowlingTeam);
+                
+                over.deliveredBall(ballDelivery);
 
                 if (targetToChase != -1 && runCurrentInning > targetToChase) {
                     isInningOver = true;
@@ -139,15 +142,45 @@ public class MatchSimulator {
         //Please also let me know in-case if I've missed something in above
     }
 
-    private int randomOneOf(int... values){
+    private int randomOneOf(int... values) {
         int randomIndex = new Random().nextInt(values.length);
-        return values[randomIndex-1];
+        return values[randomIndex - 1];
     }
 
-    private <T> T randomOneOf(T... values){
+    private <T> T randomOneOf(T... values) {
         int randomIndex = new Random().nextInt(values.length);
-        return values[randomIndex-1];
+        return values[randomIndex - 1];
     }
 
+    private void validateBallDelivery(BallDelivery ballDelivery, Team battingTeam, Team bowlingTeam) {
+        throwExceptionIfFalse(ballDelivery != null, "Ball delivery must not be null");
+        throwExceptionIfNotOneOf(ballDelivery.getBowledBy(), bowlingTeam.getPlayerList(), "Bowler is not from bowling team");
 
+        throwExceptionIfFalse(ballDelivery.getDeliveryType() != null, "Ball delivery type must not be null");
+
+        boolean isValidExtraRun = (ballDelivery.getDeliveryType() == Normal && ballDelivery.getExtraRuns() == 0)
+                || (ballDelivery.getDeliveryType() != Normal && ballDelivery.getExtraRuns() == 1);
+        throwExceptionIfFalse(isValidExtraRun, "Extra run must be 1 for NoBall or Wide and 0 for Normal delivery");
+
+        throwExceptionIfNotOneOf(ballDelivery.getRunsScoredByBatsman(), Arrays.asList(0, 1, 2, 3, 4, 6), "Invalid run scored by batsman");
+
+        throwExceptionIfNotOneOf(ballDelivery.getStrikerPlayer(), battingTeam.getPlayerList(), "Striker must be from batting team");
+        throwExceptionIfNotOneOf(ballDelivery.getNonStrikerPlayer(), battingTeam.getPlayerList(), "Nonstriker must be from batting team");
+    }
+
+    private void throwExceptionIfFalse(boolean isTrue, String message) {
+        if (!isTrue) {
+            throw new RuntimeException(message);
+        }
+    }
+
+    private <T> void throwExceptionIfNotOneOf(String message, T actualValue, T... values) {
+        throwExceptionIfNotOneOf(actualValue, Arrays.asList(values), message);
+    }
+
+    private <T> void throwExceptionIfNotOneOf(T actualValue, List<T> values, String message) {
+        if (!values.contains(actualValue)) {
+            throw new RuntimeException("Invalid value: " + actualValue + "Message: " + message);
+        }
+    }
 }

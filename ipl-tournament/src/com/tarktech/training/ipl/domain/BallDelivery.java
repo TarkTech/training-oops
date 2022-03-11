@@ -29,4 +29,33 @@ public class BallDelivery {
         this.bowledBy = bowledBy;
         this.extraRuns = extraRuns;
     }
+
+
+    public int getRunsScoredByBatsman() {
+        return runsScoredByBatsman;
+    }
+
+    public Player getStrikerPlayer() {
+        return strikerPlayer;
+    }
+
+    public Player getNonStrikerPlayer() {
+        return nonStrikerPlayer;
+    }
+
+    public BallDeliveryType getDeliveryType() {
+        return deliveryType;
+    }
+
+    public int getExtraRuns() {
+        return extraRuns;
+    }
+
+    public WicketDismissal getWicketDismissal() {
+        return wicketDismissal;
+    }
+
+    public Player getBowledBy() {
+        return bowledBy;
+    }
 }
