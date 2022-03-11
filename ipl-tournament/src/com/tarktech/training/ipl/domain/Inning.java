@@ -26,4 +26,13 @@ public class Inning {
     public Team getTeamToBowl(){
         return teamToBowl;
     }
+
+    public List<Over> getOversPlayed() {
+        return oversPlayed;
+    }
+
+    @Override
+    public String toString(){
+        return String.format("Batting team: %s, Bowling team: %s", teamToBat, teamToBowl);
+    }
 }

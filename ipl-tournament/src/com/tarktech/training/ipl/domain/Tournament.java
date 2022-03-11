@@ -29,7 +29,7 @@ public class Tournament {
         this.leagueRoundMatches = matchScheduler.scheduleLeagueRound(teams, tournamentStartDate);
     }
 
-    public void playLeagueRound() {
+    public List<CricketMatch> playLeagueRound() {
         MatchSimulator matchSimulator = new MatchSimulator();
 
         for (CricketMatch cricketMatch : leagueRoundMatches) {
@@ -41,6 +41,7 @@ public class Tournament {
             team1.matchPlayed(cricketMatch);
             team2.matchPlayed(cricketMatch);
         }
+        return leagueRoundMatches;
     }
 
     public void scheduleSemifinals() {

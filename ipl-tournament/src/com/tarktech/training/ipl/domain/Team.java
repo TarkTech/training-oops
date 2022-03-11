@@ -17,12 +17,16 @@ public class Team {
     public String getName() {
         return name;
     }
-
     public List<Player> getPlayerList(){
         return players;
     }
 
     public void matchPlayed(CricketMatch cricketMatch) {
         playedMatches.add(cricketMatch);
+    }
+
+    @Override
+    public String toString(){
+        return name;
     }
 }
