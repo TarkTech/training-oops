@@ -19,96 +19,69 @@ public class MatchSimulator {
         return bowlers;
     }
 
-    private int[] simulateInning(Inning inning, int targetToChase) {
+    private LiveInningStatistics simulateInning(Inning inning, int targetToChase) {
         Random random = new Random();
-        boolean isInningOver = false;
-
-        int wicketCurrentInning = 0;
-        int runCurrentInning = 0;
         Team battingTeam = inning.getTeamToBat();
-        List<Player> batters = battingTeam.getPlayerList();
-        Player strikerPlayer = batters.get(0);
-        Player nonStrikerPlayer = batters.get(1);
-        int nextBattingPosition = 2;
-
         Team bowlingTeam = inning.getTeamToBowl();
+
+        List<Player> batters = battingTeam.getPlayerList();
         List<Player> bowlers = getBowlerList(bowlingTeam);
 
+        LiveInningStatistics liveInningStatistics = new LiveInningStatistics(batters, bowlers);
 
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 20 && !liveInningStatistics.getIsInningOver(); i++) {
             Over over = new Over();
-
-            Player currentBowler = bowlers.get(i % bowlers.size()); //Pick bowler in round robin fashion
-
+            liveInningStatistics.changeBowler(i); //Pick bowler in round robin fashion
             int ballCount = 0;
-            while (ballCount < 6 && !isInningOver) {
-                int runsScoredByBatsman;
-                BallDeliveryType deliveryType;
-                int extraRuns = 0;
-                WicketDismissal wicketDismissal = null;
-                boolean isWicket = false;
 
-                int randomForDeliveryType = random.nextInt(101);
-                if (randomForDeliveryType <= 95) {
-                    deliveryType = Normal;
-                    int randomForWicketDismissal = random.nextInt(101);
-                    if (randomForWicketDismissal > 95) {
-                        isWicket = true;
-                        wicketCurrentInning += 1;
-                        wicketDismissal = randomOneOf(Bowled, Caught, RunOut, LegBeforeWicket);
-                        runsScoredByBatsman = 0;
+            while (ballCount < 6 && !liveInningStatistics.getIsInningOver()) {
+                LiveBallStatistics liveBallStatistics = new LiveBallStatistics();
+
+                int randomForDeliveryType = random.nextInt(100);
+                if (randomForDeliveryType <= 94) {
+                    liveBallStatistics.setDeliveryType(Normal);
+                    int randomForWicketDismissal = random.nextInt(100);
+                    if (randomForWicketDismissal > 94) {
+                        liveBallStatistics.setWicketDismissal();
                     } else {
-                        runsScoredByBatsman = randomOneOf(0,1,2,3,4,6);
+                        liveBallStatistics.setRunsScoredByBatsman();
                     }
                     ballCount += 1;
                 } else {
-                    deliveryType = randomOneOf(Wide, NoBall);
-                    extraRuns = 1;
-                    runsScoredByBatsman = deliveryType == Wide ? 0 : randomOneOf(0,1,2,3,4,6);
+                    liveBallStatistics.setBallDeliveryTypeAndRuns();
                 }
 
-                over.deliveredBall(new BallDelivery(runsScoredByBatsman, strikerPlayer, nonStrikerPlayer, deliveryType, extraRuns, wicketDismissal, currentBowler));
+                over.deliveredBall(new BallDelivery(liveBallStatistics.getRunsScoredByBatsman(), liveInningStatistics.getStrikerPlayer(), liveInningStatistics.getNonStrikerPlayer(), liveBallStatistics.getBallDeliveryType(), liveBallStatistics.getExtraRuns(), liveBallStatistics.getWicketDismissal(), liveInningStatistics.getBowler()));
+                liveInningStatistics.isTargetChased(targetToChase);
 
-                if (targetToChase != -1 && runCurrentInning > targetToChase) {
-                    isInningOver = true;
+                if (liveBallStatistics.getRunsScoredByBatsman() == 1 || liveBallStatistics.getRunsScoredByBatsman() == 3) {
+                    liveInningStatistics.changeStrike();
                 }
-                if (runsScoredByBatsman == 1 || runsScoredByBatsman == 3) {
-                    Player temp = strikerPlayer;
-                    strikerPlayer = nonStrikerPlayer;
-                    nonStrikerPlayer = temp;
+
+                //remaining to check which player got out. for now Striker is considered as out
+                if (liveBallStatistics.getIsWicket()) {
+                    liveInningStatistics.addWicket();
                 }
-                //remaining to check which player got out for now Striker is considered as out
-                if (isWicket) {
-                    strikerPlayer = batters.get(nextBattingPosition);
-                    nextBattingPosition += 1;
-                    isWicket = false;
-                    if (nextBattingPosition > 11) {
-                        isInningOver = true;
-                    }
-                }
-                runCurrentInning += runsScoredByBatsman + extraRuns;
+                liveInningStatistics.addRuns(liveBallStatistics.getTotalRunsScoredInBall());
             }
             inning.overPlayed(over);
-
-            Player temp = strikerPlayer;
-            strikerPlayer = nonStrikerPlayer;
-            nonStrikerPlayer = temp;
+            liveInningStatistics.changeStrike();
         }
-        return new int[]{runCurrentInning, wicketCurrentInning};
+        return liveInningStatistics;
     }
 
     public void simulateMatch(CricketMatch cricketMatch) {
         cricketMatch.coinTossed();
         Inning firstInning = cricketMatch.getFirstInning();
-        int[] firstInningStatistics = simulateInning(firstInning, -1);
+        LiveInningStatistics firstInningStatistics = simulateInning(firstInning, -1);
 
         Inning secondInning = cricketMatch.getSecondInning();
-        int[] secondInningStatistics = simulateInning(secondInning, firstInningStatistics[0]);
+        LiveInningStatistics secondInningStatistics = simulateInning(secondInning, firstInningStatistics.getTotalRuns());
 
-        if (firstInningStatistics[0] > secondInningStatistics[0]) {
-            System.out.println(firstInning.getTeamToBat().getName() + " Won the match by " + (firstInningStatistics[0] - secondInningStatistics[0]) + " runs");
+        if (firstInningStatistics.getTotalRuns() > secondInningStatistics.getTotalRuns()) {
+            System.out.println(firstInning.getTeamToBat().getName() + " Won the match by " + (firstInningStatistics.getTotalRuns() - secondInningStatistics.getTotalRuns()) + " runs");
         } else {
-            System.out.println(secondInning.getTeamToBat().getName() + " Won the match by " + (10 - secondInningStatistics[1]) + " wickets");
+            System.out.println(secondInning.getTeamToBat().getName() + " Won the match by " + (10 - secondInningStatistics.getTotalWickets()) + " wickets");
         }
 
         //TODO:
@@ -138,16 +111,4 @@ public class MatchSimulator {
         //During simulation, if you need any helper methods/classes, add them inside com.tarktech.training.ipl.util package, but do not add these helper methods inside actual domain class
         //Please also let me know in-case if I've missed something in above
     }
-
-    private int randomOneOf(int... values){
-        int randomIndex = new Random().nextInt(values.length);
-        return values[randomIndex-1];
-    }
-
-    private <T> T randomOneOf(T... values){
-        int randomIndex = new Random().nextInt(values.length);
-        return values[randomIndex-1];
-    }
-
-
 }

@@ -22,8 +22,8 @@ public class TeamRepository {
             while ((line = br.readLine()) != null)   //returns a Boolean value
             {
                 if (!firstLine) {
-                    String[] teamRow = line.split(splitBy);// use comma as separator
-                    Team team = new Team(teamRow[0], findPlayerByTeamName(teamRow[0]));
+                    String[] teamDetails = line.split(splitBy);// use comma as separator
+                    Team team = new Team(teamDetails[0], findPlayerByTeamName(teamDetails[0]));
                     teams.add(team);
                 }
                 firstLine = false;
@@ -53,11 +53,11 @@ public class TeamRepository {
             BufferedReader br = new BufferedReader(new FileReader("src/com/tarktech/training/ipl/resource/Players.csv"));
             while ((line = br.readLine()) != null)   //returns a Boolean value
             {
-                String[] player = line.split(splitBy);    // use comma as separator
-                if (player[0].equals(teamName)) {
+                String[] playerDetails = line.split(splitBy);    // use comma as separator
+                if (playerDetails[0].equals(teamName)) {
 
-                    Player player1 = new Player(player[1], getPlayerRoleFromString(player[3].trim()));
-                    players.add(player1);
+                    Player player = new Player(playerDetails[1], getPlayerRoleFromString(playerDetails[3].trim()));
+                    players.add(player);
                 }
             }
 
