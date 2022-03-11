@@ -1,6 +1,7 @@
 package com.tarktech.training.ipl.domain;
 
-import com.tarktech.training.ipl.MatchScheduler;
+import com.tarktech.training.ipl.RoundRobinMatchScheduler;
+import com.tarktech.training.ipl.SimpleMatchScheduler;
 import com.tarktech.training.ipl.util.MatchSimulator;
 
 import java.time.LocalDate;
@@ -25,7 +26,7 @@ public class Tournament {
     }
 
     public List<CricketMatch> scheduleLeagueRound() {
-        MatchScheduler matchScheduler = new MatchScheduler();
+        RoundRobinMatchScheduler matchScheduler = new RoundRobinMatchScheduler();
         this.leagueRoundMatches = matchScheduler.scheduleLeagueRound(teams, tournamentStartDate);
         return this.leagueRoundMatches;
     }

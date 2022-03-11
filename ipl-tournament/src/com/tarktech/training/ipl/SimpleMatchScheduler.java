@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MatchScheduler {
+public class SimpleMatchScheduler {
     public List<CricketMatch> scheduleLeagueRound(List<Team> teams, LocalDate startDate) {
         List<CricketMatch> scheduledMatches = new ArrayList<>();
 
