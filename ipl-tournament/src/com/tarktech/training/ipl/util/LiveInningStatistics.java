@@ -61,10 +61,6 @@ public class LiveInningStatistics {
         return isInningOver;
     }
 
-    public void setIsInningOver(boolean isInningOver) {
-        this.isInningOver = isInningOver;
-    }
-
     public void addWicket() {
         this.totalWickets += 1;
         if(nextBattingPosition > 11){ // nextBattingPosition is 1 based index, like real world cricket

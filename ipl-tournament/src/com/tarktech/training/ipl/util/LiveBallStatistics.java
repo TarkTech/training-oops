@@ -8,7 +8,6 @@ import java.util.Random;
 import static com.tarktech.training.ipl.domain.BallDeliveryType.NoBall;
 import static com.tarktech.training.ipl.domain.BallDeliveryType.Wide;
 import static com.tarktech.training.ipl.domain.WicketDismissal.*;
-import static com.tarktech.training.ipl.domain.WicketDismissal.LegBeforeWicket;
 
 public class LiveBallStatistics {
     private int runsScoredByBatsman;
@@ -33,13 +32,13 @@ public class LiveBallStatistics {
     }
 
     public void setRunsScoredByBatsman() {
-        this.runsScoredByBatsman = randomOneOfInt(0, 1, 2, 3, 4, 6);
+        this.runsScoredByBatsman = randomRunsScoredByBatsman();
     }
 
     public void setWideOrNoBallDelivery() {
         this.ballDeliveryType = randomOneOf(Wide, NoBall);
         this.extraRuns += 1;
-        this.runsScoredByBatsman = ballDeliveryType == Wide ? 0 : randomOneOfInt(0, 1, 2, 3, 4, 6);
+        this.runsScoredByBatsman = ballDeliveryType == Wide ? 0 : randomRunsScoredByBatsman();
     }
 
     public BallDeliveryType getBallDeliveryType() {
@@ -74,5 +73,15 @@ public class LiveBallStatistics {
     private int randomOneOfInt(int... values) {
         int randomIndex = new Random().nextInt(values.length);
         return values[randomIndex];
+    }
+
+    private int randomRunsScoredByBatsman() {
+        int probabilityInPercentage = new Random().nextInt(100) + 1;
+        if (probabilityInPercentage <= 70) {
+            return randomOneOfInt(0, 0, 1, 1, 2);
+        } else if (probabilityInPercentage < 90) {
+            return randomOneOfInt(3, 3, 4);
+        }
+        return randomOneOfInt( 4, 6);
     }
 }

@@ -40,10 +40,12 @@ public class MatchSimulator {
                 LiveBallStatistics liveBallStatistics = new LiveBallStatistics();
 
                 int randomForDeliveryType = random.nextInt(100);
-                if (randomForDeliveryType < 90) {
+                int wicketDismissalProbability = 5;
+
+                if (randomForDeliveryType < 100 -wicketDismissalProbability) {
                     liveBallStatistics.setDeliveryType(Normal);
                     int randomForWicketDismissal = random.nextInt(100);
-                    if (randomForWicketDismissal < 10) {
+                    if (randomForWicketDismissal < wicketDismissalProbability) {
                         liveBallStatistics.setWicketDismissal();
                     } else {
                         liveBallStatistics.setRunsScoredByBatsman();
