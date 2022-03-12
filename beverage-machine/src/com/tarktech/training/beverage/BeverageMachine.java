@@ -1,30 +1,30 @@
 package com.tarktech.training.beverage;
 
-public class BeverageMachine {
-    private int dispensedTeaCount;
-    private int availableTeaCount;
+import com.tarktech.training.beverage.maker.*;
 
-    private int dispensedLatteCount;
-    private int availableLatteCount;
+public class BeverageMachine {
+    private BeverageMaker teaMaker;
+    private BeverageMaker latteMaker;
+    private BeverageMaker cappuccinoMaker;
+    private BeverageMaker mochaMaker;
 
     public BeverageMachine() {
-        dispensedTeaCount = 0;
-        availableTeaCount = 5;
-
-        dispensedLatteCount = 0;
-        availableLatteCount = 5;
+        teaMaker = new TeaMaker();
+        latteMaker = new LatteMaker();
+        cappuccinoMaker = new CappuccinoMaker();
+        mochaMaker = new MochaMaker();
     }
 
     public String dispenseBeverage(BeverageType beverageType) {
         switch (beverageType) {
             case Latte:
-                availableLatteCount--;
-                dispensedLatteCount++;
-                return "Enjoy your cup of Latte with fresh creamy milk!";
+                return latteMaker.dispenseBeverage();
             case Tea:
-                availableTeaCount--;
-                dispensedTeaCount++;
-                return "Enjoy your Hot Masala Tea!";
+                return teaMaker.dispenseBeverage();
+           case Mocha:
+               return mochaMaker.dispenseBeverage();
+            case Cappuccino:
+                return cappuccinoMaker.dispenseBeverage();
         }
         throw new RuntimeException("Sorry! We are not supporting " + beverageType + " yet!");
     }
@@ -32,9 +32,13 @@ public class BeverageMachine {
     public int getDispensedBeverageCount(BeverageType beverageType) {
         switch (beverageType) {
             case Latte:
-                return dispensedLatteCount;
+                return latteMaker.getDispensedBeverageCount();
             case Tea:
-                return dispensedTeaCount;
+                return teaMaker.getDispensedBeverageCount();
+            case Mocha:
+                return mochaMaker.getDispensedBeverageCount();
+            case Cappuccino:
+                return cappuccinoMaker.getDispensedBeverageCount();
         }
         throw new RuntimeException("Sorry! We are not supporting " + beverageType + " yet!");
     }
@@ -42,10 +46,15 @@ public class BeverageMachine {
     public int getAvailableBeverageCount(BeverageType beverageType) {
         switch (beverageType) {
             case Latte:
-                return availableLatteCount;
+                return latteMaker.getAvailableBeverageCount();
             case Tea:
-                return availableTeaCount;
+                return teaMaker.getAvailableBeverageCount();
+            case Mocha:
+                return mochaMaker.getAvailableBeverageCount();
+            case Cappuccino:
+                return cappuccinoMaker.getAvailableBeverageCount();
         }
         throw new RuntimeException("Sorry! We are not supporting " + beverageType + " yet!");
     }
+
 }

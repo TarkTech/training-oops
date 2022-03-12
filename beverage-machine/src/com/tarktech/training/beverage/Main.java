@@ -8,15 +8,17 @@ public class Main {
 
     public static void main(String[] args) {
 
+
         BeverageMachine beverageMachine = new BeverageMachine();
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("\nWhat beverage do you want (to refresh your morning)?");
-        System.out.println("Please type Tea or Latte. Enter Done, if you feel refreshed!");
+        System.out.println("Please type Tea, Latte, Mocha, Cappuccino. Enter Done, if you feel refreshed!");
 
         String userInput = scanner.nextLine();
 
         while (!userInput.equals("Done")) {
+
             BeverageType beverageType = valueOf(userInput);
 
             String beverage = beverageMachine.dispenseBeverage(beverageType);
@@ -29,7 +31,7 @@ public class Main {
             System.out.println("There are " + availableBeverageCount + " more " + beverageType + " available.");
 
             System.out.println("\nWhat beverage do you want (to refresh your morning)?");
-            System.out.println("Please type Tea or Latte. Enter Done, if you feel refreshed!");
+            System.out.println("Please type Tea, Latte, Mocha, Cappuccino. Enter Done, if you feel refreshed!");
 
             userInput = scanner.nextLine();
 
