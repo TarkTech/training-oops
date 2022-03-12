@@ -30,7 +30,6 @@ public class PrettyPrinter {
         printInningDetails(cricketMatch.getFirstInning());
         System.out.println(); //Intentionally left blank
         printInningDetails(cricketMatch.getSecondInning());
-        printMatchResult(cricketMatch);
         System.out.println(); //Intentionally left blank
     }
 
