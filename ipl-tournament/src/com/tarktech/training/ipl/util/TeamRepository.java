@@ -7,9 +7,7 @@ import com.tarktech.training.ipl.domain.Team;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class TeamRepository {
@@ -49,13 +47,17 @@ public class TeamRepository {
         List<String> playersCsvRows = Files.readAllLines(Paths.get("src/resources", "Players.csv"));
         playersCsvRows.remove(0);
 
+        List<Integer> jerseyNumbers = randomJerseyNumbers();
+
+        int jerseyCount=0;
         for (String playerRow : playersCsvRows) {
             String[] playerAttributes = playerRow.split(",");    // use comma as separator
             String teamOfPlayer = playerAttributes[0];
             if (teamOfPlayer.equals(teamName)) {
                 String playerName = playerAttributes[1].trim();
                 PlayerRole playerRole = getPlayerRole(playerAttributes[3]);
-                players.add(new Player(playerName, playerRole));
+                players.add(new Player(playerName, playerRole, jerseyNumbers.get(jerseyCount)));
+                jerseyCount++;
             }
         }
 
@@ -66,5 +68,14 @@ public class TeamRepository {
         return players.stream()
                 .sorted(Comparator.comparing(Player::getRole))
                 .collect(Collectors.toList());
+    }
+
+    private List<Integer> randomJerseyNumbers() {
+        Set<Integer> jerseyCount = new HashSet<>();
+        Random random = new Random();
+        while (jerseyCount.size() < 11) {
+            jerseyCount.add(random.nextInt(100) % 100 + 1);
+        }
+        return new ArrayList<>(jerseyCount);
     }
 }

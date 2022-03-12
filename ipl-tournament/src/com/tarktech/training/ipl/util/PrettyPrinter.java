@@ -10,7 +10,7 @@ public class PrettyPrinter {
 
         System.out.println("Team: " + team.getName());
         team.getPlayerList()
-                .forEach(player -> System.out.println("Player: " + player.getName() + ", Role: " + player.getRole()));
+                .forEach(player -> System.out.println("Player: " + player.getName() + ", Role: " + player.getRole() + ", Jersey Number: " + player.getJerseyNo()));
 
         System.out.println(); //Intentionally left blank
 
