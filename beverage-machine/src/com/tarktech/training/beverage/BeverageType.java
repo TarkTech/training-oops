@@ -1,8 +1,9 @@
 package com.tarktech.training.beverage;
 
 public enum BeverageType {
-    Latte,
     Tea,
+    Latte,
+    Cappuccino,
     Mocha,
-    Cappuccino
+    BlackTea
 }

@@ -22,6 +22,11 @@ public abstract class BeverageMaker {
         availableBeverageCount--;
     }
 
+    public void validateBeveragesAreAvailable(){
+        if (getAvailableBeverageCount() == 0) {
+            throw new RuntimeException("Sorry, Beverage is out of stock!");
+        }
+    }
 
     public abstract String dispenseBeverage();
 }

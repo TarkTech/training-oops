@@ -6,9 +6,7 @@ public class MochaMaker extends BeverageMaker {
     }
 
     public String dispenseBeverage() {
-        if (getAvailableBeverageCount() == 0) {
-            return "Sorry, Beverage is out of stock!";
-        }
+        validateBeveragesAreAvailable();
         updateBeverageCount();
         return "Enjoy your cup of Mocha made from exotic chocolate!";
     }

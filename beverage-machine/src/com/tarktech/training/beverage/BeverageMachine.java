@@ -3,58 +3,43 @@ package com.tarktech.training.beverage;
 import com.tarktech.training.beverage.maker.*;
 
 public class BeverageMachine {
-    private BeverageMaker teaMaker;
-    private BeverageMaker latteMaker;
-    private BeverageMaker cappuccinoMaker;
-    private BeverageMaker mochaMaker;
+    private BeverageMaker[] beverageMakers = new BeverageMaker[5];
 
     public BeverageMachine() {
-        teaMaker = new TeaMaker();
-        latteMaker = new LatteMaker();
-        cappuccinoMaker = new CappuccinoMaker();
-        mochaMaker = new MochaMaker();
+        beverageMakers[0] = new TeaMaker();
+        beverageMakers[1] = new LatteMaker();
+        beverageMakers[2] = new CappuccinoMaker();
+        beverageMakers[3] = new MochaMaker();
+        beverageMakers[4] = new BlackTeaMaker();
     }
 
     public String dispenseBeverage(BeverageType beverageType) {
-        switch (beverageType) {
-            case Latte:
-                return latteMaker.dispenseBeverage();
-            case Tea:
-                return teaMaker.dispenseBeverage();
-           case Mocha:
-               return mochaMaker.dispenseBeverage();
-            case Cappuccino:
-                return cappuccinoMaker.dispenseBeverage();
-        }
-        throw new RuntimeException("Sorry! We are not supporting " + beverageType + " yet!");
+        int indexOfEnum = beverageType.ordinal();
+        return beverageMakers[indexOfEnum].dispenseBeverage();
     }
 
     public int getDispensedBeverageCount(BeverageType beverageType) {
-        switch (beverageType) {
-            case Latte:
-                return latteMaker.getDispensedBeverageCount();
-            case Tea:
-                return teaMaker.getDispensedBeverageCount();
-            case Mocha:
-                return mochaMaker.getDispensedBeverageCount();
-            case Cappuccino:
-                return cappuccinoMaker.getDispensedBeverageCount();
-        }
-        throw new RuntimeException("Sorry! We are not supporting " + beverageType + " yet!");
+        int indexOfEnum = beverageType.ordinal();
+        return beverageMakers[indexOfEnum].getDispensedBeverageCount();
     }
 
     public int getAvailableBeverageCount(BeverageType beverageType) {
-        switch (beverageType) {
-            case Latte:
-                return latteMaker.getAvailableBeverageCount();
-            case Tea:
-                return teaMaker.getAvailableBeverageCount();
-            case Mocha:
-                return mochaMaker.getAvailableBeverageCount();
-            case Cappuccino:
-                return cappuccinoMaker.getAvailableBeverageCount();
-        }
-        throw new RuntimeException("Sorry! We are not supporting " + beverageType + " yet!");
+        int indexOfEnum = beverageType.ordinal();
+        return beverageMakers[indexOfEnum].getAvailableBeverageCount();
     }
 
+    public BeverageType getMostFavoriteBeverage() {
+        int mostFavoriteBeverageIndex = 0;
+        int maxDispensedBeverages = 0;
+
+        for(int i=0; i<beverageMakers.length; ++i){
+            int currentDispenseCount = beverageMakers[i].getDispensedBeverageCount();
+            if(currentDispenseCount >= maxDispensedBeverages){
+                maxDispensedBeverages = currentDispenseCount;
+                mostFavoriteBeverageIndex = i;
+            }
+        }
+        BeverageType[] values = BeverageType.values();
+        return values[mostFavoriteBeverageIndex];
+    }
 }

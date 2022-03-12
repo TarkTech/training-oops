@@ -7,10 +7,9 @@ public class LatteMaker extends BeverageMaker {
 
     public String dispenseBeverage() {
         if(getAvailableBeverageCount() == 0){
-            return "Sorry, Beverage is out of stock!";
+            throw new RuntimeException("Sorry, Beverage is out of stock!");
         }
         updateBeverageCount();
         return "Enjoy your Latte with fresh creamy milk!";
     }
-
 }
