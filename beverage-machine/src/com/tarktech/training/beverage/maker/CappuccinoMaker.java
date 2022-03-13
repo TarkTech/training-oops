@@ -1,12 +1,9 @@
 package com.tarktech.training.beverage.maker;
 
-public class CappuccinoMaker extends BeverageMaker {
-    public CappuccinoMaker(){
+import com.tarktech.training.beverage.BeverageType;
 
-    }
+public class CappuccinoMaker extends BeverageMaker {
     public String dispenseBeverage() {
-        validateBeveragesAreAvailable();
-        updateBeverageCount();
-        return "Enjoy hot cappuccino made from freshly brewed beans!";
+        return configBeverage(BeverageType.valueOf("Cappuccino"));
     }
 }
