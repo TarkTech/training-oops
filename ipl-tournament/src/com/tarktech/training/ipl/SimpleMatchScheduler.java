@@ -13,17 +13,41 @@ public class SimpleMatchScheduler {
 
         LocalDate matchScheduleDate = startDate;
 
-        for (int i = 0; i < teams.size(); ++i) {
-            for (int j = i + 1; j < teams.size(); ++j) {
-                CricketMatch cricketMatch = new CricketMatch(teams.get(i), teams.get(j));
-                cricketMatch.scheduleOn(matchScheduleDate);
+        ArrayList<String> schedule = new ArrayList<>();
+        int r = 0;
+        int i = 0;
+        int j = teams.size()-1;
 
-                scheduledMatches.add(cricketMatch);
+        if (teams.size() % 2 == 0) {
+            while (r < teams.size() - 1) {
+                while (i < j) {
+                    schedule.add(teams.get(i) + " " + teams.get(j));
 
-                matchScheduleDate = matchScheduleDate.plusDays(1);
+                    CricketMatch cricketMatch = new CricketMatch(teams.get(i), teams.get(j));
+                    cricketMatch.scheduleOn(matchScheduleDate);
+                    scheduledMatches.add(cricketMatch);
+                    matchScheduleDate = matchScheduleDate.plusDays(1);
+
+                    i++;
+                    j--;
+                }
+                i = 0;
+                j = teams.size() - 1;
+
+                //right shifting of teams...
+                List<Team> temp = new ArrayList<>(teams);
+                teams.set(1, temp.get(temp.size()-1));
+
+                for (int k=2; k<temp.size(); k++){
+                    teams.set(k, temp.get(k-1));
+                }
+
+                r++;
             }
+            //System.out.println(schedule);
         }
 
+        //System.out.println(scheduledMatches);
         return scheduledMatches;
     }
 }
