@@ -4,6 +4,5 @@ public enum BeverageType {
     Tea,
     Latte,
     Cappuccino,
-    Mocha,
-    BlackTea
+    Mocha
 }
