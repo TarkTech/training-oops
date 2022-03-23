@@ -1,4 +1,4 @@
-package com.tarktech.demoOfPublicFieldsAndMethods.domain;
+package com.tarktech.training.oops.refresher.accessmodifiers.domain;
 
 public class Square {
     public int side;

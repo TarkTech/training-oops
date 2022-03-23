@@ -1,4 +1,4 @@
-package com.tarktech.demoOfPrivateFieldsAndParameterizedConstructor.domain;
+package com.tarktech.training.oops.refresher.constructor.domain;
 
 public class Square {
     public int side;

@@ -1,4 +1,4 @@
-package com.tarktech.demoOfEnumAndAbstractClass.domain;
+package com.tarktech.training.oops.refresher.inheritance.domain;
 
 public class Square extends Polygon {
     public int side;
@@ -8,6 +8,6 @@ public class Square extends Polygon {
     }
 
     public void area(){
-        System.out.println("Area of " + ShapeType.Square + " is " + side * side);
+        System.out.println("Area of square is " + side * side);
     }
 }

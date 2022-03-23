@@ -1,4 +1,6 @@
-package com.tarktech.demoOfEnumAndAbstractClass.domain;
+package com.tarktech.training.oops.refresher.inheritance.domain;
+
+import com.tarktech.training.oops.refresher.inheritance.domain.Polygon;
 
 public class Triangle extends Polygon {
     private int height;
@@ -10,6 +12,6 @@ public class Triangle extends Polygon {
     }
 
     public void area() {
-        System.out.println("Area of " + ShapeType.Triangle + " is " + base * height * 0.5);
+        System.out.println("Area of triangle is " + base * height * 0.5);
     }
 }

@@ -1,6 +1,6 @@
-package com.tarktech.demoOfPrivateFieldsAndParameterizedConstructor.domain;
+package com.tarktech.training.oops.refresher.inheritance.domain;
 
-public class Rectangle {
+public class Rectangle extends Polygon {
     private int length;
     private int breath;
 
@@ -10,6 +10,6 @@ public class Rectangle {
     }
 
     public void area() {
-        System.out.println("Area of the rectangle is " + length * breath);
+        System.out.println("Area of rectangle is " + length * breath);
     }
 }
