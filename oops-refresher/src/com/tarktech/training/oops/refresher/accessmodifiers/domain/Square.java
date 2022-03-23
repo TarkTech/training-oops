@@ -1,9 +1,17 @@
 package com.tarktech.training.oops.refresher.accessmodifiers.domain;
 
 public class Square {
-    public int side;
+    private double side;
 
-    public void area(){
-        System.out.println("Area of the square is " + side * side);
+    public double getSide() {
+        return side;
+    }
+
+    public void setSide(double side) {
+        this.side = side;
+    }
+
+    public double calculateArea(){
+        return (side * side);
     }
 }

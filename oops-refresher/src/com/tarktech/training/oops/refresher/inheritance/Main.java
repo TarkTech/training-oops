@@ -1,6 +1,5 @@
 package com.tarktech.training.oops.refresher.inheritance;
 
-import com.tarktech.training.oops.refresher.inheritance.domain.Polygon;
 import com.tarktech.training.oops.refresher.inheritance.domain.Rectangle;
 import com.tarktech.training.oops.refresher.inheritance.domain.Triangle;
 import com.tarktech.training.oops.refresher.inheritance.domain.Square;
@@ -8,13 +7,18 @@ import com.tarktech.training.oops.refresher.inheritance.domain.Square;
 public class Main {
 
     public static void main(String[] args) {
-        Polygon rectangle = new Rectangle(10, 20);
-        rectangle.area();
+        Rectangle rectangle = new Rectangle();
+        rectangle.setLength(20);
+        rectangle.setWidth(10);
+        System.out.println("Area of rectangle is: " + rectangle.calculateArea());
 
-        Polygon triangle = new Triangle(10, 20);
-        triangle.area();
+        Triangle triangle = new Triangle();
+        triangle.setBase(10);
+        triangle.setHeight(20);
+        System.out.println("Area of triangle is: " + triangle.calculateArea());
 
-        Polygon square = new Square(10);
-        square.area();
+        Square square = new Square();
+        square.setSide(10);
+        System.out.println("Area of square is: " + square.calculateArea());
     }
 }

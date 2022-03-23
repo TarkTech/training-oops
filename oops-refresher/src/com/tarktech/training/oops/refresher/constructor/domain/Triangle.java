@@ -1,15 +1,15 @@
 package com.tarktech.training.oops.refresher.constructor.domain;
 
 public class Triangle {
-    private int height;
-    private int base;
+    private double height;
+    private double base;
 
-    public Triangle(int height, int base) {
+    public Triangle(double height, double base) {
         this.height = height;
         this.base = base;
     }
 
-    public void area() {
-        System.out.println("Area of the triangle is " + height * base * 0.5);
+    public double calculateArea() {
+        return height * base * 0.5;
     }
 }

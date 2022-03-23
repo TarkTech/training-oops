@@ -14,12 +14,12 @@ public class Main {
 
         //TODO: Modify below examples - similar to above. Similarly, also modify the classes within constructor and inheritance packages.
         Triangle triangle = new Triangle();
-        triangle.base = 10;
-        triangle.height = 20;
-        triangle.area();
+        triangle.setBase(10);
+        triangle.setHeight(20);
+        System.out.println("Area of triangle is: " + triangle.calculateArea());
 
         Square square = new Square();
-        square.side = 10;
-        square.area();
+        square.setSide(10);
+        System.out.println("Area of square is: " + square.calculateArea());
     }
 }

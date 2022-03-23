@@ -1,13 +1,17 @@
 package com.tarktech.training.oops.refresher.inheritance.domain;
 
 public class Square extends Polygon {
-    public int side;
+    public double side;
 
-    public Square(int side) {
+    public double getSide() {
+        return side;
+    }
+
+    public void setSide(double side) {
         this.side = side;
     }
 
-    public void area(){
-        System.out.println("Area of square is " + side * side);
+    public double calculateArea(){
+        return side * side;
     }
 }
