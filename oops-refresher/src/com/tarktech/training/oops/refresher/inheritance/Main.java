@@ -18,7 +18,7 @@ public class Main {
         System.out.println("Area of triangle is: " + triangle.calculateArea());
 
         Square square = new Square();
-        square.setSide(10);
+        square.setLength(10);
         System.out.println("Area of square is: " + square.calculateArea());
     }
 }

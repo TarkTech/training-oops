@@ -1,13 +1,13 @@
 package com.tarktech.training.oops.refresher.constructor.domain;
 
 public class Square {
-    public double side;
+    public double length;
 
-    public Square(double side) {
-        this.side = side;
+    public Square(double length) {
+        this.length = length;
     }
 
     public double calculateArea() {
-        return side * side;
+        return length * length;
     }
 }

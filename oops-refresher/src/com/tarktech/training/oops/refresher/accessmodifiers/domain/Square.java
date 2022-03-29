@@ -1,17 +1,17 @@
 package com.tarktech.training.oops.refresher.accessmodifiers.domain;
 
 public class Square {
-    private double side;
+    private double length;
 
-    public double getSide() {
-        return side;
+    public double getLength() {
+        return length;
     }
 
-    public void setSide(double side) {
-        this.side = side;
+    public void setLength(double length) {
+        this.length = length;
     }
 
     public double calculateArea(){
-        return (side * side);
+        return (length * length);
     }
 }
