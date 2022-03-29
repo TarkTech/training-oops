@@ -25,7 +25,6 @@ cinst -y git openjdk intellijidea-community
 
 mkdir D:\tark-training
 Set-Location D:\tark-training
-git clone https://github.com/TarkTech/training-oops.git
 
 Write-Output "🎉 Setup completed."
 
