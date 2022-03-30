@@ -2,9 +2,9 @@ This repository contains problems and exercises to learn and practice concepts o
 
 ## Setup Tools & Projects
 ### Using Powershell Script (Preferred)
-Please follow instructions as specified in the [tutorial video.](https://www.youtube.com/watch?v=los5j8Sw80U)
+Please follow instructions as specified in the [tutorial video](https://www.youtube.com/watch?v=los5j8Sw80U) to set-up prerequisite tools (Git, JDK 17, Intellij Idea) and code repository. 
 
-For your reference, the commands used in the video are specified below.
+For your reference, the commands used in the video are listed below.
 ```shell
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
@@ -17,7 +17,7 @@ iwr https://raw.githubusercontent.com/TarkTech/training-oops/main/scripts/setup-
 git clone https://github.com/TarkTech/training-oops.git
 ```
 ### Manual Installation
-In case, if you are unable to install using Powershell script, please follow the steps mentioned [here.](https://www.youtube.com/watch?v=E0HHr6C0MzE)
+In case, if you are unable to install using Powershell script, please follow the steps mentioned [here](https://www.youtube.com/watch?v=E0HHr6C0MzE) to set-up prerequisite tools (Git, JDK 17, Intellij Idea) and code repository.
 
 **Note:** Please try this option, only if you are unable to install using Powershell script.
 For your reference, the commands and links, used in the video, are listed below.
