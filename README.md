@@ -1,6 +1,4 @@
-# training-oops
-
-Examples to demonstrate OOPS, Algorithms &amp; Data Structures
+This repository contains problems and exercises to learn and practice concepts of Object Oriented Programming, Data Structures and Algorithms.
 
 ## Setup Tools & Projects
 ### Using Powershell Script (Preferred)
