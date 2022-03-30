@@ -1,5 +1,7 @@
 This repository contains problems and exercises to learn and practice concepts of Object Oriented Programming, Data Structures and Algorithms.
 
+Please follow steps, mentioned below, to install and set-up pre-requisite tools and code base repository.
+
 ## Setup Tools & Projects
 ### Using Powershell Script (Preferred)
 Please follow instructions as specified in the [tutorial video](https://www.youtube.com/watch?v=los5j8Sw80U) to set-up prerequisite tools (Git, JDK 17, Intellij Idea) and code repository. 
