@@ -2,62 +2,36 @@ package com.tarktech.training.beverage;
 
 
 public class BeverageMachine {
-    private int availableTeaCount;
-    private int dispensedTeaCount;
+    private TeaMaker teaMaker;
 
-    private int availableLatteCount;
-    private int dispensedLatteCount;
+    private LatteMaker latteMaker;
 
-    private int availableCappuccinoCount;
-    private int dispensedCappuccinoCount;
+    private CappuccinoMaker cappuccinoMaker;
 
-    private int availableMochaCount;
-    private int dispensedMochaCount;
+    private MochaMaker mochaMaker;
 
     public BeverageMachine() {
-        availableTeaCount = 5;
-        dispensedTeaCount = 0;
 
-        availableLatteCount = 5;
-        dispensedLatteCount = 0;
+        teaMaker = new TeaMaker();
 
-        availableCappuccinoCount = 5;
-        dispensedCappuccinoCount = 0;
+        latteMaker = new LatteMaker();
 
-        availableMochaCount = 5;
-        dispensedMochaCount = 0;
+        cappuccinoMaker = new CappuccinoMaker();
+
+        mochaMaker = new MochaMaker();
+
     }
 
     public String dispenseBeverage(BeverageType beverageType) {
         switch (beverageType) {
             case Tea:
-                if(availableTeaCount <= 0) {
-                    return "Tea is out of stock!";
-                }
-                dispensedTeaCount++;
-                availableTeaCount--;
-                return "Enjoy your Hot Masala Tea!";
+                return teaMaker.dispenseBeverage();
             case Latte:
-                if(availableLatteCount <= 0) {
-                    return "Latte is out of stock!";
-                }
-                dispensedLatteCount++;
-                availableLatteCount--;
-                return "Enjoy a cup of Latte with fresh creamy milk!";
+                return latteMaker.dispenseBeverage();
             case Cappuccino:
-                if(availableCappuccinoCount <= 0) {
-                    return "Cappuccino is out of stock!";
-                }
-                dispensedCappuccinoCount++;
-                availableCappuccinoCount--;
-                return "Enjoy your cappuccino made from freshly brewed beans!";
+                return cappuccinoMaker.dispenseBeverage();
            case Mocha:
-                if(availableMochaCount <= 0) {
-                    return "Mocha is out of stock!";
-                }
-                dispensedMochaCount++;
-                availableMochaCount--;
-                return "Enjoy a cup of hot mocha made from Swiss dark chocolates!";
+                return mochaMaker.dispenseBeverage();
         }
         throw new RuntimeException("Sorry! " + beverageType + " is not served!");
     }
@@ -65,13 +39,13 @@ public class BeverageMachine {
     public int getDispensedBeverageCount(BeverageType beverageType) {
         switch (beverageType) {
             case Tea:
-                return dispensedTeaCount;
+                return teaMaker.getDispensedBeverageCount();
             case Latte:
-                return dispensedLatteCount;
+                return latteMaker.getDispensedBeverageCount();
             case Cappuccino:
-                return dispensedCappuccinoCount;
+                return cappuccinoMaker.getDispensedBeverageCount();
             case Mocha:
-                return dispensedMochaCount;
+                return mochaMaker.getDispensedBeverageCount();
         }
         throw new RuntimeException("Sorry! " + beverageType + " is not supported!");
     }
@@ -79,43 +53,17 @@ public class BeverageMachine {
     public int getAvailableBeverageCount(BeverageType beverageType) {
         switch (beverageType) {
             case Tea:
-                return availableTeaCount;
+                return teaMaker.getAvailableBeverageCount();
             case Latte:
-                return availableLatteCount;
+                return latteMaker.getAvailableBeverageCount();
             case Cappuccino:
-                return availableCappuccinoCount;
+                return cappuccinoMaker.getAvailableBeverageCount();
             case Mocha:
-                return availableMochaCount;
+                return mochaMaker.getAvailableBeverageCount();
 
         }
         throw new RuntimeException("Sorry! " + beverageType + " is not supported!");
     }
 
-    public BeverageType getMostFavoriteBeverage() {
-        if(dispensedTeaCount >= dispensedLatteCount
-        && dispensedTeaCount >= dispensedCappuccinoCount
-        && dispensedTeaCount >= dispensedMochaCount) {
-            return BeverageType.Tea;
-        }
 
-        if(dispensedLatteCount >= dispensedTeaCount
-        && dispensedLatteCount >= dispensedCappuccinoCount
-        && dispensedLatteCount >= dispensedMochaCount) {
-            return BeverageType.Latte;
-        }
-
-        if(dispensedCappuccinoCount >= dispensedTeaCount
-        && dispensedCappuccinoCount >= dispensedLatteCount
-        && dispensedCappuccinoCount >= dispensedMochaCount) {
-            return BeverageType.Cappuccino;
-        }
-
-        if(dispensedMochaCount >= dispensedTeaCount
-        && dispensedMochaCount >= dispensedLatteCount
-        && dispensedMochaCount >= dispensedCappuccinoCount) {
-            return BeverageType.Mocha;
-        }
-
-       return null;
-    }
 }
