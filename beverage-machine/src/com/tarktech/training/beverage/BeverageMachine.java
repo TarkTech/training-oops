@@ -90,4 +90,32 @@ public class BeverageMachine {
         }
         throw new RuntimeException("Sorry! " + beverageType + " is not supported!");
     }
+
+    public BeverageType getMostFavoriteBeverage() {
+        if(dispensedTeaCount >= dispensedLatteCount
+        && dispensedTeaCount >= dispensedCappuccinoCount
+        && dispensedTeaCount >= dispensedMochaCount) {
+            return BeverageType.Tea;
+        }
+
+        if(dispensedLatteCount >= dispensedTeaCount
+        && dispensedLatteCount >= dispensedCappuccinoCount
+        && dispensedLatteCount >= dispensedMochaCount) {
+            return BeverageType.Latte;
+        }
+
+        if(dispensedCappuccinoCount >= dispensedTeaCount
+        && dispensedCappuccinoCount >= dispensedLatteCount
+        && dispensedCappuccinoCount >= dispensedMochaCount) {
+            return BeverageType.Cappuccino;
+        }
+
+        if(dispensedMochaCount >= dispensedTeaCount
+        && dispensedMochaCount >= dispensedLatteCount
+        && dispensedMochaCount >= dispensedCappuccinoCount) {
+            return BeverageType.Mocha;
+        }
+
+       return null;
+    }
 }
