@@ -3,23 +3,15 @@ package com.tarktech.training.beverage;
 
 public class BeverageMachine {
     private TeaMaker teaMaker;
-
     private LatteMaker latteMaker;
-
     private CappuccinoMaker cappuccinoMaker;
-
     private MochaMaker mochaMaker;
 
     public BeverageMachine() {
-
         teaMaker = new TeaMaker();
-
         latteMaker = new LatteMaker();
-
         cappuccinoMaker = new CappuccinoMaker();
-
         mochaMaker = new MochaMaker();
-
     }
 
     public String dispenseBeverage(BeverageType beverageType) {
@@ -30,7 +22,7 @@ public class BeverageMachine {
                 return latteMaker.dispenseBeverage();
             case Cappuccino:
                 return cappuccinoMaker.dispenseBeverage();
-           case Mocha:
+            case Mocha:
                 return mochaMaker.dispenseBeverage();
         }
         throw new RuntimeException("Sorry! " + beverageType + " is not served!");
@@ -64,6 +56,4 @@ public class BeverageMachine {
         }
         throw new RuntimeException("Sorry! " + beverageType + " is not supported!");
     }
-
-
 }

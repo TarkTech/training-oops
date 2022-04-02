@@ -1,28 +1,12 @@
 package com.tarktech.training.beverage;
 
-public class LatteMaker {
-    private int availableLatteCount;
-    private int dispensedLatteCount;
-
-    public LatteMaker(){
-        availableLatteCount = 5;
-        dispensedLatteCount = 0;
-    }
+public class LatteMaker extends BeverageMaker {
 
     public String dispenseBeverage() {
-        if(availableLatteCount <= 0) {
+        if(getAvailableBeverageCount() <= 0) {
             return "Latte is out of stock!";
         }
-        dispensedLatteCount++;
-        availableLatteCount--;
+        updateBeverageQuantity();
         return "Enjoy a cup of Latte made with fresh creamy milk!";
-    }
-
-    public int getDispensedBeverageCount() {
-        return dispensedLatteCount;
-    }
-
-    public int getAvailableBeverageCount() {
-        return availableLatteCount;
     }
 }
