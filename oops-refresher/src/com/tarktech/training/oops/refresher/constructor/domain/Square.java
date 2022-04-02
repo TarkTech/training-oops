@@ -1,6 +1,6 @@
 package com.tarktech.training.oops.refresher.constructor.domain;
 
-public class Square {
+public class Square extends Polygon {
     public double length;
 
     public Square(double length) {

@@ -5,6 +5,8 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 
+        DayOfWeek monday = DayOfWeek.Monday;
+
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter day of week");
         String input = sc.nextLine();

@@ -1,7 +1,7 @@
 package com.tarktech.training.oops.refresher.accessmodifiers.domain;
 
 public class Rectangle {
-    private double length;
+    public double length;
     private double width;
 
     public double getLength() {

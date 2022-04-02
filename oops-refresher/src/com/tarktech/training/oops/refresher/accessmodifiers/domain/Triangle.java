@@ -1,8 +1,8 @@
 package com.tarktech.training.oops.refresher.accessmodifiers.domain;
 
 public class Triangle {
-    public double height;
-    public double base;
+    private double height;
+    private double base;
 
     public double getHeight() {
         return height;

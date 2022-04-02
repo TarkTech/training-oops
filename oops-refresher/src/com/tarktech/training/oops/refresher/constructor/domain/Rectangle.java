@@ -1,6 +1,6 @@
 package com.tarktech.training.oops.refresher.constructor.domain;
 
-public class Rectangle {
+public class Rectangle extends Polygon{
     private double length;
     private double width;
 

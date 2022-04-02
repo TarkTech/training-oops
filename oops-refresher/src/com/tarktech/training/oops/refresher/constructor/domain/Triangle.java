@@ -1,6 +1,6 @@
 package com.tarktech.training.oops.refresher.constructor.domain;
 
-public class Triangle {
+public class Triangle extends Polygon {
     private double height;
     private double base;
 

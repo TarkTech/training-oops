@@ -8,6 +8,7 @@ public class Main {
 
     public static void main(String[] args) {
         Rectangle rectangle = new Rectangle();
+        rectangle.length = 100;
         rectangle.setLength(20);
         rectangle.setWidth(10);
         System.out.println("Area of rectangle is: " + rectangle.calculateArea());
