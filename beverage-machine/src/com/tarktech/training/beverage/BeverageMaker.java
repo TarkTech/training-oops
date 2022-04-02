@@ -1,6 +1,6 @@
 package com.tarktech.training.beverage;
 
-public class BeverageMaker {
+public abstract class BeverageMaker {
     private int availableBeverageCount;
     private int dispensedBeverageCount;
 
@@ -21,4 +21,14 @@ public class BeverageMaker {
         availableBeverageCount--;
         dispensedBeverageCount++;
     }
+
+    public String dispenseBeverage() {
+        if(getAvailableBeverageCount() <= 0) {
+            return "Beverage is out of stock!";
+        }
+        updateBeverageQuantity();
+        return prepareBeverage();
+    }
+
+    public abstract String prepareBeverage();
 }
