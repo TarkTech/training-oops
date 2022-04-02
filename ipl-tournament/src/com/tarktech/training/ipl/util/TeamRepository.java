@@ -11,6 +11,11 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class TeamRepository {
+
+    public List<Team> findAnyTwoTeams() {
+        return findAllTeams().stream().limit(2).collect(Collectors.toList());
+    }
+
     public List<Team> findAllTeams() {
         List<Team> teams = new ArrayList<>();
         try {
