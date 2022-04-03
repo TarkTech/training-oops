@@ -28,6 +28,11 @@ public class Main {
             int availableBeverageCount = beverageMachine.getAvailableBeverageCount(beverageType);
             System.out.println("There are " + availableBeverageCount + " more " + beverageType + " available.");
 
+            String MostBeverageCount = beverageMachine.getMostFavouriteBeverageCount(beverageType);
+            System.out.println("Most Favourite Bevrage is " + MostBeverageCount );
+            String least = beverageMachine.getLeastFavouriteBeverageCount(beverageType);
+            System.out.println("Least Favourite Bevrage is " + least );
+
             System.out.println("\nWhat beverage do you want (to refresh your morning)?");
             System.out.println("Please type Tea, Latte, Cappuccino or Mocha. Enter Done, if you feel refreshed!");
 
